@@ -1,6 +1,7 @@
 /**
  * Created by aymen on 18/03/15.
  */
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/dbtodo1');
 
@@ -25,7 +26,9 @@ var express = require('express');
 var app = express();
 app.use(bodyParser.json());
 
-app.get('/todo', function (req, res) {
+
+app
+    .get('/todo', function (req, res) {
     Todo.find(function (err, todos) {
         if (err) {
             res.json(400, "");
@@ -39,7 +42,8 @@ app.get('/todo', function (req, res) {
     });
 });
 
-app.post('/todo', function (req, res) {
+app
+    .post('/todo', function (req, res) {
     var todo = new Todo({ title: req.body.title, description: req.body.description });
 
     todo.save(function (err, silence) {
@@ -61,7 +65,7 @@ app
     .route('/todo/:id').get(function (req, res) {
         Todo.findOne({_id: req.params.id}, function (err, todo) {
             if (err) {
-                return res.json(400, "");
+                return res.json(400,"");
             }
             else {
                 if (!todo) {
@@ -115,3 +119,4 @@ var server = app.listen(3000, function () {
 
     console.log('Example app listening at http://%s:%s', host, port);
 });
+
