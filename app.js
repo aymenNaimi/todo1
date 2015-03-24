@@ -35,6 +35,13 @@ var UserSchema = new Schema({
     email: String
 });
 
+isConnected = function(req, res, next) {
+    if (!req.user)
+        return res.send(401);
+    else
+        next();
+}
+
 var User = mongoose.model('User', UserSchema);
 
 var app = express();
@@ -80,12 +87,7 @@ passport.deserializeUser(function (id, done) {
 });
 
 app
-    .get('/todos', function(req, res, next) {
-        if (!req.user)
-            return res.send(401);
-        else
-            next();
-    }, function (req, res) {
+    .get('/todos',  function (req, res,next) {isConnected(req, res, next) } , function (req, res) {
         Todo.find(function (err, todos) {
             if (err) {
                 res.json(400, "");
@@ -100,7 +102,7 @@ app
     });
 
 app
-    .post('/todos', function (req, res) {
+    .post('/todos',  function (req, res,next) {isConnected(req, res, next) }, function (req, res) {
         var todo = new Todo({ title: req.body.title, description: req.body.description });
 
         todo.save(function (err, silence) {
@@ -119,7 +121,7 @@ app
 
 
 app
-    .route('/todos/:id').get(function (req, res) {
+    .route('/todos/:id').get(  function (req, res,next) {isConnected(req, res, next) },function (req, res) {
         Todo.findOne({_id: req.params.id}, function (err, todo) {
             if (err) {
                 return res.json(400, "");
