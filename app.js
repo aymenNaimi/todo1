@@ -24,7 +24,18 @@ var TodoSchema = new Schema({
     description: String
 });
 
+
 var Todo = mongoose.model('Todo', TodoSchema);
+
+var UserSchema = new Schema({
+    username: String,
+    password: String,
+    first_name: String,
+    last_name: String,
+    email: String
+});
+
+var User = mongoose.model('User', UserSchema);
 
 var app = express();
 app.use(bodyParser.json());
@@ -38,15 +49,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy({
-    usernameField: 'title',
-    passwordField: 'description'
+    usernameField: 'username',
+    passwordField: 'password'
 }, function (username, password, done) {
-    Todo.findOne({
-        title: username
+    User.findOne({
+        username : username
     }, function (err, user) {
         if (err) return done(err);
 
-        if (!user || user.description !== password) {
+        if (!user || user.password !== password) {
             return done(null, false, {
                 message: 'Invalid username or password'
             });
@@ -61,7 +72,7 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    Todo.findOne({
+    User.findOne({
         _id: id
     }, function (err, user) {
         done(err, user);
