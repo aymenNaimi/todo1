@@ -9,6 +9,7 @@ var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+
 mongoose.connect('mongodb://localhost/dbtodo1');
 
 var db = mongoose.connection;
@@ -21,7 +22,9 @@ var Schema = mongoose.Schema;
 
 var TodoSchema = new Schema({
     title: String,
-    description: String
+    description: String,
+    done: Boolean,
+    user_id: { type: Schema.Types.ObjectId, ref: 'Story' }
 });
 
 
@@ -35,7 +38,7 @@ var UserSchema = new Schema({
     email: String
 });
 
-isConnected = function(req, res, next) {
+isConnected = function (req, res, next) {
     if (!req.user)
         return res.send(401);
     else
@@ -60,7 +63,7 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
 }, function (username, password, done) {
     User.findOne({
-        username : username
+        username: username
     }, function (err, user) {
         if (err) return done(err);
 
@@ -87,8 +90,10 @@ passport.deserializeUser(function (id, done) {
 });
 
 app
-    .get('/todos',  function (req, res,next) {isConnected(req, res, next) } , function (req, res) {
-        Todo.find(function (err, todos) {
+    .get('/todos', function (req, res, next) {
+        isConnected(req, res, next)
+    }, function (req, res) {
+        Todo.find({user_id: req.user.id}, function (err, todos) {
             if (err) {
                 res.json(400, "");
             }
@@ -102,10 +107,13 @@ app
     });
 
 app
-    .post('/todos',  function (req, res,next) {isConnected(req, res, next) }, function (req, res) {
-        var todo = new Todo({ title: req.body.title, description: req.body.description });
+    .post('/todos', function (req, res, next) {
+        isConnected(req, res, next)
+    }, function (req, res) {
 
-        todo.save(function (err, silence) {
+        var todo = new Todo({ title: req.body.title, description: req.body.description, done: false, user_id: req.user.id });
+
+        todo.save(function (err, todo) {
             if (err) {
                 res.json(400, "");
             }
@@ -121,8 +129,10 @@ app
 
 
 app
-    .route('/todos/:id').get(  function (req, res,next) {isConnected(req, res, next) },function (req, res) {
-        Todo.findOne({_id: req.params.id}, function (err, todo) {
+    .route('/todos/:id').get(function (req, res, next) {
+        isConnected(req, res, next)
+    }, function (req, res) {
+        Todo.findOne({_id: req.params.id, user_id: req.user.id}, function (err, todo) {
             if (err) {
                 return res.json(400, "");
             }
@@ -138,25 +148,41 @@ app
     .post(function (req, res) {
         res.json({"post by  id": req.params.id});
     })
-    .put(function (req, res) {
-        Todo.findById(req.params.id, function (err, todo) {
+    .put(function (req, res, next) {
+        isConnected(req, res, next)
+    }, function (req, res) {
 
-
+/*
+        Todo.update({ _id: req.params.id, user_id: req.user.id}, { $set: { title: req.body.title, description: req.body.description, done: req.body.done}}, function (err, todo) {
+            if (!todo) {
+                return res.json(404, 'not found');
+            }
             if (err) {
-                res.json(400, "erreur");
+                return res.send(err);
             }
-            else if (!todo) {
-                res.json(404, "");
-            }
-            else {
-                todo.title = req.body.title;
-                todo.description = req.body.description;
-                todo.save(res.json(200, todo));
-            }
+            return    res.json(200);
         });
+*/
+        Todo.findOne({ _id: req.params.id, user_id: req.user.id}, function (err, todo){
+            if (!todo) {
+                return res.json(404,"");
+            }
+            if (err) {
+                return res.send(err);
+            }
+           if(req.body.title) {todo.title = req.body.title; }
+          if(req.body.description)  {todo.description = req.body.description;}
+           if(req.body.description) {todo.done = req.body.done ;}
+            todo.save();
+            return res.json(200,todo);
+        });
+
+
     })
-    .delete(function (req, res) {
-        Todo.findById(req.params.id, function (err, todo) {
+    .delete(function (req, res, next) {
+        isConnected(req, res, next)
+    }, function (req, res) {
+        Todo.findOne({_id: req.params.id, user_id: req.user.id}, function (err, todo) {
 
             if (err) {
                 return handleError(err);
@@ -187,7 +213,7 @@ app
             });
         })(req, res, next);
     })
-    .get('/logout', function(req, res) {
+    .get('/logout', function (req, res) {
         req.logout();
         res.send();
     });
