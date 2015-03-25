@@ -164,12 +164,13 @@ app
         });
 */
         Todo.findOne({ _id: req.params.id, user_id: req.user.id}, function (err, todo){
-            if (!todo) {
-                return res.json(404,"");
-            }
             if (err) {
                 return res.send(err);
             }
+            if (!todo) {
+                return res.json(404,"");
+            }
+
            if(req.body.title) {todo.title = req.body.title; }
           if(req.body.description)  {todo.description = req.body.description;}
            if(req.body.description) {todo.done = req.body.done ;}
