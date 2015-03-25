@@ -38,6 +38,17 @@ var UserSchema = new Schema({
     email: String
 });
 
+
+TodoSchema.path('title')
+    .validate(function (value) {
+        return (value !== 'reserved');
+    }, 'reserved')
+    .validate(function (value, respond) {
+        Todo.find({ title: value,user_id : this.user_id }, function (err, todos) {
+            respond(!err && todos.length == 0);
+        });
+    }, 'the title existe');
+
 isConnected = function (req, res, next) {
     if (!req.user)
         return res.send(401);
@@ -115,6 +126,7 @@ app
 
         todo.save(function (err, todo) {
             if (err) {
+                console.log("err msg : " + err.message);
                 res.json(400, "");
             }
             else if (!(todo.title && todo.description)) {
@@ -152,30 +164,36 @@ app
         isConnected(req, res, next)
     }, function (req, res) {
 
-/*
-        Todo.update({ _id: req.params.id, user_id: req.user.id}, { $set: { title: req.body.title, description: req.body.description, done: req.body.done}}, function (err, todo) {
-            if (!todo) {
-                return res.json(404, 'not found');
-            }
+        /*
+         Todo.update({ _id: req.params.id, user_id: req.user.id}, { $set: { title: req.body.title, description: req.body.description, done: req.body.done}}, function (err, todo) {
+         if (!todo) {
+         return res.json(404, 'not found');
+         }
+         if (err) {
+         return res.send(err);
+         }
+         return    res.json(200);
+         });
+         */
+        Todo.findOne({ _id: req.params.id, user_id: req.user.id}, function (err, todo) {
             if (err) {
                 return res.send(err);
             }
-            return    res.json(200);
-        });
-*/
-        Todo.findOne({ _id: req.params.id, user_id: req.user.id}, function (err, todo){
-            if (err) {
-                return res.send(err);
-            }
             if (!todo) {
-                return res.json(404,"");
+                return res.json(404, "");
             }
 
-           if(req.body.title) {todo.title = req.body.title; }
-          if(req.body.description)  {todo.description = req.body.description;}
-           if(req.body.description) {todo.done = req.body.done ;}
+            if (req.body.title) {
+                todo.title = req.body.title;
+            }
+            if (req.body.description) {
+                todo.description = req.body.description;
+            }
+            if (req.body.description) {
+                todo.done = req.body.done;
+            }
             todo.save();
-            return res.json(200,todo);
+            return res.json(200, todo);
         });
 
 
