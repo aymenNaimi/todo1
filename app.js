@@ -21,8 +21,16 @@ db.once('open', function (callback) {
 var Schema = mongoose.Schema;
 
 var TodoSchema = new Schema({
-    title: String,
-    description: String,
+    title: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    description: {
+        type: String,
+        trim: true
+
+    },
     done: Boolean,
     user_id: { type: Schema.Types.ObjectId, ref: 'Story' }
 });
@@ -42,10 +50,20 @@ var UserSchema = new Schema({
 TodoSchema.path('title')
     .validate(function (value) {
         return (value !== 'reserved');
-    }, 'reserved')
+    }, 'this title  reserved')
+    .validate(function (value) {
+        return (value.length > 3);
+    }, 'title should be more than 4 caractéres')
     .validate(function (value, respond) {
-        Todo.find({ title: value,user_id : this.user_id }, function (err, todos) {
-            respond(!err && todos.length == 0);
+        var query = Todo
+            .where('title', value)
+            .where('user_id', this.user_id);
+
+        if (this._id)
+            query.where('_id').ne(this._id);
+
+        query.count(function (err, count) {
+            respond(!err && count === 0);
         });
     }, 'the title existe');
 
@@ -127,7 +145,9 @@ app
         todo.save(function (err, todo) {
             if (err) {
                 console.log("err msg : " + err.message);
-                res.json(400, "");
+                console.log("  err color messsage :" + err.errors.title.message);
+
+                res.json(400, err.errors.title.message);
             }
             else if (!(todo.title && todo.description)) {
                 return res.json(400, "put tile and description");
@@ -162,7 +182,7 @@ app
     })
     .put(function (req, res, next) {
         isConnected(req, res, next)
-    }, function (req, res) {
+    }, function (req, res, next) {
 
         /*
          Todo.update({ _id: req.params.id, user_id: req.user.id}, { $set: { title: req.body.title, description: req.body.description, done: req.body.done}}, function (err, todo) {
@@ -177,23 +197,29 @@ app
          */
         Todo.findOne({ _id: req.params.id, user_id: req.user.id}, function (err, todo) {
             if (err) {
-                return res.send(err);
+                return next(err);
             }
+
             if (!todo) {
                 return res.json(404, "");
             }
 
-            if (req.body.title) {
+            if (req.body.title !== undefined) {
                 todo.title = req.body.title;
             }
-            if (req.body.description) {
+            if (req.body.description !== undefined) {
                 todo.description = req.body.description;
             }
-            if (req.body.description) {
+            if (req.body.done !== undefined) {
                 todo.done = req.body.done;
             }
-            todo.save();
-            return res.json(200, todo);
+            todo.save(function (err, todo) {
+                    if (err) {
+                        return next(err);
+                    }
+                    return res.json(200, todo);
+                }
+            );
         });
 
 
