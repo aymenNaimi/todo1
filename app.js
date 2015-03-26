@@ -119,15 +119,14 @@ passport.deserializeUser(function (id, done) {
 });
 
 
-
-
 app
     .get('/todos', function (req, res, next) {
-        isConnected(req, res, next)
+        isConnected(req, res, next);
     }, function (req, res) {
         Todo.find({user_id: req.user.id}, function (err, todos) {
             if (err) {
-                res.json(400, "");
+                return next(err);
+
             }
             else if (!todos) {
                 return res.json(404, todos);
@@ -141,18 +140,26 @@ app
 app
     .post('/todos', function (req, res, next) {
         isConnected(req, res, next)
-    }, function (req, res) {
+    }, function (req, res,next) {
 
         var todo = new Todo({ title: req.body.title, description: req.body.description, done: false, user_id: req.user.id });
 
         todo.save(function (err, todo) {
+
+
             if (err) {
+
+              return next(err);
+
+/*
                 console.log("err msg : " + err.message);
                 console.log("  err color messsage :" + err.errors.title.message);
 
                 res.json(400, err.errors.title.message);
+                */
             }
             else if (!(todo.title && todo.description)) {
+
                 return res.json(400, "put tile and description");
             }
             else {
@@ -169,7 +176,7 @@ app
     }, function (req, res) {
         Todo.findOne({_id: req.params.id, user_id: req.user.id}, function (err, todo) {
             if (err) {
-                return res.json(400, "");
+                return next(err);
             }
             else {
                 if (!todo) {
@@ -187,17 +194,7 @@ app
         isConnected(req, res, next)
     }, function (req, res, next) {
 
-        /*
-         Todo.update({ _id: req.params.id, user_id: req.user.id}, { $set: { title: req.body.title, description: req.body.description, done: req.body.done}}, function (err, todo) {
-         if (!todo) {
-         return res.json(404, 'not found');
-         }
-         if (err) {
-         return res.send(err);
-         }
-         return    res.json(200);
-         });
-         */
+
         Todo.findOne({ _id: req.params.id, user_id: req.user.id}, function (err, todo) {
             if (err) {
                 return next(err);
@@ -233,7 +230,7 @@ app
         Todo.findOne({_id: req.params.id, user_id: req.user.id}, function (err, todo) {
 
             if (err) {
-                return handleError(err);
+                return next(err);
             }
             else if (!todo) {
                 res.json(404, "")
@@ -265,6 +262,17 @@ app
         req.logout();
         res.send();
     });
+
+app.use(function(err, req, res, next) {
+    if(err.name === "ValidationError"){
+
+        res.json(400, err);
+    }
+    else
+    { res.json(500, err); }
+
+
+});
 
 var server = app.listen(3000, function () {
 
