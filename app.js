@@ -118,6 +118,8 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+app.use(express.static(__dirname + '/public'));
+app.use('/lib', express.static(__dirname + '/bower_components'));
 
 app
     .get('/todos', function (req, res, next) {
@@ -148,15 +150,9 @@ app
 
 
             if (err) {
-
               return next(err);
 
-/*
-                console.log("err msg : " + err.message);
-                console.log("  err color messsage :" + err.errors.title.message);
 
-                res.json(400, err.errors.title.message);
-                */
             }
             else if (!(todo.title && todo.description)) {
 
@@ -189,6 +185,10 @@ app
     })
     .post(function (req, res) {
         res.json({"post by  id": req.params.id});
+
+
+
+
     })
     .put(function (req, res, next) {
         isConnected(req, res, next)

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>Todo Manager</title>
+</head>
+<body>
+<h1>Todos</h1>
+
+<div ng-controller="myCtrl">
+    <h1>ADD new todo</h1><br>
+    title : <input type="text" id="text4" ng-model="title"><br>
+    description: <input type="text" id="text5" ng-model="description"><br>
+    <button type="submit" ng-click="add();">ADD new todo</button>
+
+        <h1>UPDATE new todo </h1><br>
+        id: title : <input type="text" ng-model="idup"><br>
+        title : <input type="text" id="text1" ng-model="titleup"><br>
+        description : <input type="text" id="text2" ng-model="descriptionup"><br>
+        done : <input type="checkbox" id="checkbox1" ng-model="doneup" ng-checked="doneup">
+        <button type="submit" ng-click="update2(p._id);">update it</button>
+        <button type="submit" ng-click="clear();">clear</button>
+
+
+    <div ng-repeat="p in todos">
+
+        <div id=p._id>
+
+            <p><span style="color:blue"> title : </span> {{p.title}} , </p>
+
+            <p><span style="color:green">  description : </span> {{p.description}} </p>
+
+            <p><span style="color:red">  done  :  </span> {{p.done}} <input type="checkbox" ng-checked=p.done></p>
+
+            <button type="submit" ng-click="done(p._id,p);">done/doesn't done</button>
+            <button type="submit" ng-click="delete(p._id);">delete this todo</button>
+            <button type="submit" ng-click="update1(p);">update this todo</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/lib/angular/angular.js"></script>
+<script type="text/javascript" src="/todos.js"></script>
+
+
+</body>
+</html>
+
