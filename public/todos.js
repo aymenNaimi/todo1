@@ -1,8 +1,8 @@
 var app = angular.module('myApp',
     []);
 app.controller('myCtrl', function ($scope, $http) {
-    self=this ;
-    $scope.firstName = "John";
+   var self=this ;
+    self.firstName = "John";
     console.log('hh1');
     $http({
         method: 'GET',
@@ -11,28 +11,28 @@ app.controller('myCtrl', function ($scope, $http) {
             'Content-Type': 'application/json'
         }
     }).success(function (data, status) {
-        $scope.todos = data;
+        self.todos = data;
         var ii = 0;
         while (data[ii]) {
             console.log("data ii :" + ii + JSON.stringify(data[ii]));
             ii = ii + 1;
         }
     });
-    $scope.add = function () {
+    self.add = function () {
         $http({
             method: 'POST',
             url: 'http://localhost:3000/todos',
             headers: {
                 'Content-Type': 'application/json'
-            }, data: {title: $scope.title, description: $scope.description}
+            }, data: {title: self.title, description: self.description}
         }).success(function (data, status) {
             console.log("status :" + status);
-            $scope.todos.push(data);
-            console.log("****todos****" + JSON.stringify($scope.todos));
+            self.todos.push(data);
+            console.log("****todos****" + JSON.stringify(self.todos));
             console.log("data  :" + JSON.stringify(data));
         });
     }
-    $scope.delete = function (id) {
+    self.delete = function (id) {
         $http({
             method: 'DELETE',
             url: 'http://localhost:3000/todos/' + id,
@@ -44,9 +44,9 @@ app.controller('myCtrl', function ($scope, $http) {
             if (status === 200) {
                 console.log("delete succes and status =" + status);
                 var jj = 0;
-                while ($scope.todos[jj]) {
-                    if ($scope.todos[jj]._id == id) {
-                        $scope.todos.splice(jj, 1);
+                while (self.todos[jj]) {
+                    if (self.todos[jj]._id == id) {
+                        self.todos.splice(jj, 1);
                     }
                     jj = jj + 1;
                 }
@@ -57,7 +57,7 @@ app.controller('myCtrl', function ($scope, $http) {
         });
         console.log("log in function delete and id = " + id);
     }
-    $scope.done = function (id, p) {
+    self.done = function (id, p) {
         p.done = !(p.done);
         $http({
             method: 'PUT',
@@ -77,51 +77,51 @@ app.controller('myCtrl', function ($scope, $http) {
         });
         console.log("log in function done and id = " + id);
     }
-    $scope.update1 = function (p) {
-        $scope.idup = p._id;
-        $scope.titleup = p.title;
-        $scope.descriptionup = p.description;
-        $scope.doneup = p.done;
+    self.update1 = function (p) {
+        self.idup = p._id;
+        self.titleup = p.title;
+        self.descriptionup = p.description;
+        self.doneup = p.done;
     }
-    $scope.clear = function () {
-        $scope.idup = "";
-        $scope.titleup = "";
-        $scope.descriptionup = "";
-        $scope.doneup = "";
+    self.clear = function () {
+        self.idup = "";
+        self.titleup = "";
+        self.descriptionup = "";
+        self.doneup = "";
     }
-    $scope.update2 = function (id) {
+    self.update2 = function (id) {
         $http({
             method: 'PUT',
-            url: 'http://localhost:3000/todos/' + $scope.idup,
+            url: 'http://localhost:3000/todos/' + self.idup,
             headers: {
                 'Content-Type': 'application/json'
-            }, data: { title: $scope.titleup, description: $scope.descriptionup, done: $scope.doneup}
+            }, data: { title: self.titleup, description:self.descriptionup, done: self.doneup}
         }).success(function (data, status) {
             console.log("succes in update2 function" + "  data =" + JSON.stringify(data));
             var jj = 0;
             console.log(" log in update 2");
-            while ($scope.todos[jj]) {
+            while (self.todos[jj]) {
                 console.log(" log in update 2 in while loop");
 
-                if ($scope.todos[jj]._id == $scope.idup) {
+                if (self.todos[jj]._id == self.idup) {
                     console.log(" log in update 2 in if- block");
-                    console.log("$scope.todos[jj].title  = "+$scope.todos[jj].title);
+                    console.log("self.todos[jj].title  = "+self.todos[jj].title);
 
-                    console.log("title = " + $scope.titleup);
-                    $scope.todos[jj].title = $scope.titleup;
-                    console.log("$scope.todos[jj].title  = "+$scope.todos[jj].title);
+                    console.log("title = " + self.titleup);
+                    self.todos[jj].title = self.titleup;
+                    console.log("self..todos[jj].title  = "+self.todos[jj].title);
 
-                    console.log("title = " + $scope.titleup);
-                   $scope.todos[jj].description =$scope.descriptionup;
-                    $scope.todos[jj].doneup = $scope.doneup;
+                    console.log("title = " + self.titleup);
+                    self.todos[jj].description =self.descriptionup;
+                    self.todos[jj].done = self.doneup;
                 }
                 jj = jj + 1;
             }
         });
-        console.log("id = " + $scope.idup);
-        console.log("title = " + $scope.titleup);
-        console.log("description = " + $scope.descriptionup);
-        console.log("done = " + $scope.doneup);
+        console.log("id = " + self.idup);
+        console.log("title = " + self.titleup);
+        console.log("description = " + self.descriptionup);
+        console.log("done = " + self.doneup);
     }
 
 })

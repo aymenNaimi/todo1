@@ -8,20 +8,20 @@
 
 <div ng-controller="myCtrl as mycl">
     <h1>ADD new todo</h1><br>
-    title : <input type="text" id="text4" ng-model="title"><br>
-    description: <input type="text" id="text5" ng-model="description"><br>
-    <button type="submit" ng-click="add();">ADD new todo</button>
+    title : <input type="text" id="text4" ng-model="mycl.title"><br>
+    description: <input type="text" id="text5" ng-model="mycl.description"><br>
+    <button type="submit" ng-click="mycl.add();">ADD new todo</button>
 
         <h1>UPDATE new todo </h1><br>
-        id: title : <input type="text" ng-model="idup"><br>
-        title : <input type="text" id="text1" ng-model="titleup"><br>
-        description : <input type="text" id="text2" ng-model="descriptionup"><br>
-        done : <input type="checkbox" id="checkbox1" ng-model="doneup" ng-checked="doneup">
-        <button type="submit" ng-click="update2(p._id);">update it</button>
-        <button type="submit" ng-click="clear();">clear</button>
+        id: title : <input type="text" ng-model="mycl.idup"><br>
+        title : <input type="text" id="text1" ng-model="mycl.titleup"><br>
+        description : <input type="text" id="text2" ng-model="mycl.descriptionup"><br>
+        done : <input type="checkbox" id="checkbox1" ng-model="mycl.doneup" ng-checked="mycl.doneup">
+        <button type="submit" ng-click="mycl.update2(p._id);">update it</button>
+        <button type="submit" ng-click="mycl.clear();">clear</button>
 
 
-    <div ng-repeat="p in todos">
+    <div ng-repeat="p in mycl.todos">
 
         <div id=p._id>
 
@@ -29,11 +29,11 @@
 
             <p><span style="color:green">  description : </span> {{p.description}} </p>
 
-            <p><span style="color:red">  done  :  </span> {{p.done}} <input type="checkbox" ng-checked=p.done></p>
+            <p><span style="color:red">  done  :  </span> {{p.done}} <input type="checkbox"  ng-checked=p.done></p>
 
-            <button type="submit" ng-click="done(p._id,p);">done/doesn't done</button>
-            <button type="submit" ng-click="delete(p._id);">delete this todo</button>
-            <button type="submit" ng-click="update1(p);">update this todo</button>
+            <button type="submit" ng-click="mycl.done(p._id,p);">done/doesn't done</button>
+            <button type="submit" ng-click="mycl.delete(p._id);">delete this todo</button>
+            <button type="submit" ng-click="mycl.update1(p);">update this todo</button>
         </div>
     </div>
 </div>
