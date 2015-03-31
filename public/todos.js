@@ -1,6 +1,7 @@
 var app = angular.module('myApp',
     []);
 app.controller('myCtrl', function ($scope, $http) {
+    self=this ;
     $scope.firstName = "John";
     console.log('hh1');
     $http({
@@ -98,10 +99,20 @@ app.controller('myCtrl', function ($scope, $http) {
         }).success(function (data, status) {
             console.log("succes in update2 function" + "  data =" + JSON.stringify(data));
             var jj = 0;
+            console.log(" log in update 2");
             while ($scope.todos[jj]) {
-                if ($scope.todos[jj]._id == id) {
-                    $scope.todos[jj].title = $scope.title;
-                    $scope.todos[jj].description = $scope.description;
+                console.log(" log in update 2 in while loop");
+
+                if ($scope.todos[jj]._id == $scope.idup) {
+                    console.log(" log in update 2 in if- block");
+                    console.log("$scope.todos[jj].title  = "+$scope.todos[jj].title);
+
+                    console.log("title = " + $scope.titleup);
+                    $scope.todos[jj].title = $scope.titleup;
+                    console.log("$scope.todos[jj].title  = "+$scope.todos[jj].title);
+
+                    console.log("title = " + $scope.titleup);
+                   $scope.todos[jj].description =$scope.descriptionup;
                     $scope.todos[jj].doneup = $scope.doneup;
                 }
                 jj = jj + 1;
