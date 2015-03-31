@@ -58,17 +58,17 @@ app.controller('myCtrl', function ($scope, $http) {
         console.log("log in function delete and id = " + id);
     }
     self.done = function (id, p) {
-        p.done = !(p.done);
+     var x    = !(p.done);
         $http({
             method: 'PUT',
             url: 'http://localhost:3000/todos/' + id,
             headers: {
                 'Content-Type': 'application/json'
-            }, data: {done: p.done}
+            }, data: {done: x}
         }).success(function (data, status) {
             console.log("status :" + status);
             if (status === 200) {
-
+                p.done=x;
                 console.log("done succes and status =" + status + 'data = ' + JSON.stringify(data));
             }
             else {
@@ -100,6 +100,7 @@ app.controller('myCtrl', function ($scope, $http) {
             console.log("succes in update2 function" + "  data =" + JSON.stringify(data));
             var jj = 0;
             console.log(" log in update 2");
+            if(status===200){
             while (self.todos[jj]) {
                 console.log(" log in update 2 in while loop");
 
@@ -117,6 +118,7 @@ app.controller('myCtrl', function ($scope, $http) {
                 }
                 jj = jj + 1;
             }
+        }
         });
         console.log("id = " + self.idup);
         console.log("title = " + self.titleup);
