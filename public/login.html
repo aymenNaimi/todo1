@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>login</title>
-</head>
-<body>
-<h1>login</h1>
-
-<div ng-app="myApp" ng-controller="myCtrl">
-    Name: <input type="text" ng-model="username"><br>
-    E-mail: <input type="text" ng-model="password"><br>
-    <button type="submit" ng-click="connect();">Login</button>
+<div>
+Name: <input type="text" ng-model="mycl.username"><br>
+E-mail: <input type="text" ng-model="mycl.password"><br>
+<button type="submit" ng-click="mycl.connect();">Login</button>
 </div>
-<script type="text/javascript" src="/lib/angular/angular.js"></script>
-<script type="text/javascript" src="/login.js"></script>
-</body>
-</html>

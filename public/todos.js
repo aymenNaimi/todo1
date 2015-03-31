@@ -1,5 +1,27 @@
 var app = angular.module('myApp',
-    []);
+    ['ngRoute']);
+app.config(['$routeProvider',
+    function($routeProvider) {
+        $routeProvider.
+            when('/login', {
+                templateUrl: '/login.html',
+                controller: 'myCtrl',
+                controllerAs: 'mycl'
+            }).
+            when('/todos', {
+                templateUrl: '/todos.html',
+                controller: 'myCtrl',
+                controllerAs: 'mycl'
+            }).
+            when('/', {
+                templateUrl: '/todos.html',
+                controller: 'myCtrl',
+                controllerAs: 'mycl'
+            }).
+            otherwise({
+                redirectTo: '/login'
+            });
+    }]);
 app.controller('myCtrl', function ($scope, $http) {
     var self = this;
     self.firstName = "John";
@@ -147,4 +169,30 @@ app.controller('myCtrl', function ($scope, $http) {
         self.title = "";
         self.description = "";
     }
+    self.connect = function () {
+
+        console.log('*********log in function connect for to login');
+        $http({
+            method: 'POST',
+            url: 'http://localhost:3000/login',
+            headers: {
+                'Content-Type': 'application/json'
+            }, data: {username: self.username, password: self.password}
+        }).success(function (data, status) {
+            console.log("status :" + status);
+            console.log("data  :" + JSON.stringify(data));
+        });
+
+        console.log('-------log in function connect for to login');
+
+    }
+})
+
+app.controller('myCtrl2', function ($scope, $http) {
+$scope.name="aymen";
+    $scope.age=25;
+
+
+
+
 })
