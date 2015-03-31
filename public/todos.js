@@ -13,19 +13,14 @@ app.config(['$routeProvider',
                 controller: 'myCtrl',
                 controllerAs: 'mycl'
             }).
-            when('/', {
-                templateUrl: '/todos.html',
-                controller: 'myCtrl',
-                controllerAs: 'mycl'
-            }).
             otherwise({
                 redirectTo: '/login'
             });
     }]);
-app.controller('myCtrl', function ($scope, $http) {
+app.controller('myCtrl', function ($scope, $http,$location) {
     var self = this;
+
     self.firstName = "John";
-    console.log('hh1');
     $http({
         method: 'GET',
         url: 'http://localhost:3000/todos',
@@ -48,10 +43,7 @@ app.controller('myCtrl', function ($scope, $http) {
                 'Content-Type': 'application/json'
             }, data: {title: self.title, description: self.description}
         }).success(function (data, status) {
-            console.log("status :" + status);
             self.todos.push(data);
-            console.log("****todos****" + JSON.stringify(self.todos));
-            console.log("data  :" + JSON.stringify(data));
         });
     }
     self.delete = function (id) {
@@ -127,14 +119,7 @@ app.controller('myCtrl', function ($scope, $http) {
                     console.log(" log in update 2 in while loop");
 
                     if (self.todos[jj]._id == self.idup) {
-                        console.log(" log in update 2 in if- block");
-                        console.log("self.todos[jj].title  = " + self.todos[jj].title);
-
-                        console.log("title = " + self.titleup);
                         self.todos[jj].title = self.titleup;
-                        console.log("self..todos[jj].title  = " + self.todos[jj].title);
-
-                        console.log("title = " + self.titleup);
                         self.todos[jj].description = self.descriptionup;
                         self.todos[jj].done = self.doneup;
                     }
@@ -142,12 +127,7 @@ app.controller('myCtrl', function ($scope, $http) {
                 }
             }
         });
-        console.log("id = " + self.idup);
-        console.log("title = " + self.titleup);
-        console.log("description = " + self.descriptionup);
-        console.log("done = " + self.doneup);
     }
-
     self.logout = function () {
         $http({
             method: 'GET',
@@ -163,15 +143,16 @@ app.controller('myCtrl', function ($scope, $http) {
             else {
                 console.log("logout failed");
             }
+            $location.path('/login');
         });
     }
+
     self.clear2 = function () {
         self.title = "";
         self.description = "";
     }
     self.connect = function () {
 
-        console.log('*********log in function connect for to login');
         $http({
             method: 'POST',
             url: 'http://localhost:3000/login',
@@ -181,18 +162,7 @@ app.controller('myCtrl', function ($scope, $http) {
         }).success(function (data, status) {
             console.log("status :" + status);
             console.log("data  :" + JSON.stringify(data));
+            $location.path('/todos');
         });
-
-        console.log('-------log in function connect for to login');
-
     }
-})
-
-app.controller('myCtrl2', function ($scope, $http) {
-$scope.name="aymen";
-    $scope.age=25;
-
-
-
-
 })
