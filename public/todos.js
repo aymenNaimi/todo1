@@ -143,4 +143,8 @@ app.controller('myCtrl', function ($scope, $http) {
             }
         });
     }
+    self.clear2 = function () {
+        self.title = "";
+        self.description = "";
+    }
 })
