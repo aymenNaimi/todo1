@@ -1,7 +1,7 @@
 var app = angular.module('myApp',
     []);
 app.controller('myCtrl', function ($scope, $http) {
-   var self=this ;
+    var self = this;
     self.firstName = "John";
     console.log('hh1');
     $http({
@@ -58,7 +58,7 @@ app.controller('myCtrl', function ($scope, $http) {
         console.log("log in function delete and id = " + id);
     }
     self.done = function (id, p) {
-     var x    = !(p.done);
+        var x = !(p.done);
         $http({
             method: 'PUT',
             url: 'http://localhost:3000/todos/' + id,
@@ -68,7 +68,7 @@ app.controller('myCtrl', function ($scope, $http) {
         }).success(function (data, status) {
             console.log("status :" + status);
             if (status === 200) {
-                p.done=x;
+                p.done = x;
                 console.log("done succes and status =" + status + 'data = ' + JSON.stringify(data));
             }
             else {
@@ -95,30 +95,30 @@ app.controller('myCtrl', function ($scope, $http) {
             url: 'http://localhost:3000/todos/' + self.idup,
             headers: {
                 'Content-Type': 'application/json'
-            }, data: { title: self.titleup, description:self.descriptionup, done: self.doneup}
+            }, data: { title: self.titleup, description: self.descriptionup, done: self.doneup}
         }).success(function (data, status) {
             console.log("succes in update2 function" + "  data =" + JSON.stringify(data));
             var jj = 0;
             console.log(" log in update 2");
-            if(status===200){
-            while (self.todos[jj]) {
-                console.log(" log in update 2 in while loop");
+            if (status === 200) {
+                while (self.todos[jj]) {
+                    console.log(" log in update 2 in while loop");
 
-                if (self.todos[jj]._id == self.idup) {
-                    console.log(" log in update 2 in if- block");
-                    console.log("self.todos[jj].title  = "+self.todos[jj].title);
+                    if (self.todos[jj]._id == self.idup) {
+                        console.log(" log in update 2 in if- block");
+                        console.log("self.todos[jj].title  = " + self.todos[jj].title);
 
-                    console.log("title = " + self.titleup);
-                    self.todos[jj].title = self.titleup;
-                    console.log("self..todos[jj].title  = "+self.todos[jj].title);
+                        console.log("title = " + self.titleup);
+                        self.todos[jj].title = self.titleup;
+                        console.log("self..todos[jj].title  = " + self.todos[jj].title);
 
-                    console.log("title = " + self.titleup);
-                    self.todos[jj].description =self.descriptionup;
-                    self.todos[jj].done = self.doneup;
+                        console.log("title = " + self.titleup);
+                        self.todos[jj].description = self.descriptionup;
+                        self.todos[jj].done = self.doneup;
+                    }
+                    jj = jj + 1;
                 }
-                jj = jj + 1;
             }
-        }
         });
         console.log("id = " + self.idup);
         console.log("title = " + self.titleup);
@@ -126,4 +126,21 @@ app.controller('myCtrl', function ($scope, $http) {
         console.log("done = " + self.doneup);
     }
 
+    self.logout = function () {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:3000/logout',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status) {
+            if (status === 200) {
+                console.log(" logout success ");
+                self.todos = [];
+            }
+            else {
+                console.log("logout failed");
+            }
+        });
+    }
 })
