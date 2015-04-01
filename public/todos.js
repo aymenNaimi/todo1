@@ -30,8 +30,10 @@ var checkLoggedin = function($q, $timeout, $http, $location){
         { //self.username=user.username;
            // self.iduser=user._id ;
             console.log (' in check logged in connected ');
-            deferred.resolve();
+            console.log("in function check logged in user ="+JSON.stringify(user) );
+            console.log("username ="+user.username);
 
+            deferred.resolve(user);
         }
         // Not Authenticated
         else {
@@ -45,9 +47,10 @@ var checkLoggedin = function($q, $timeout, $http, $location){
     return deferred.promise;
 };
 
-app.controller('myCtrl', function ($scope, $http,$location) {
+app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
 
+    self.user = loggedin;
     self.firstName = "John";
     $http({
         method: 'GET',
@@ -67,26 +70,6 @@ app.controller('myCtrl', function ($scope, $http,$location) {
     }).error(function(data,status){ /*  if (status ===401){console.log(' not connected ');
     $location.path('/login');
     }  */ });
-   /*
-    self.login= function(){
-
-
-
-
-
-
-   }
-*/
-
-
-
-
-
-
-
-
-
-
 
 
 
