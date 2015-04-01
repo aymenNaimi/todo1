@@ -73,8 +73,10 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
             if (status === 200) {
                 var jj = 0;
                 while (self.todos[jj]) {
-                    if (self.todos[jj]._id == id) {
+               var     notdeleted=true;
+                    if (self.todos[jj]._id == id && notdeleted) {
                         self.todos.splice(jj, 1);
+                        notdeleted=false;
                     }
                     jj = jj + 1;
                 }
@@ -112,11 +114,14 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         }).success(function (data, status) {
             var jj = 0;
             if (status === 200) {
-                while (self.todos[jj]) {
+                var notmodfied = true ;
+                while (self.todos[jj] && notmodfied) {
                     if (self.todos[jj]._id == self.idup) {
                         self.todos[jj].title = self.titleup;
                         self.todos[jj].description = self.descriptionup;
                         self.todos[jj].done = self.doneup;
+                        notmodfied=false ;
+
                     }
                     jj = jj + 1;
                 }
