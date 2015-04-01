@@ -63,6 +63,9 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         });
     }
     self.delete = function (id) {
+        if (confirm('do you what to delete this from todo from database?')) {
+            // Save it!
+
         $http({
             method: 'DELETE',
             url: 'http://localhost:3000/todos/' + id,
@@ -82,6 +85,8 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 }
             }
         });
+
+        }
     }
     self.done = function (id, p) {
         var x = !(p.done);
@@ -127,6 +132,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 }
             }
         });
+
     };
     self.logout = function () {
         $http({
@@ -155,17 +161,19 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         });
     }
     self.setmode = function (mode, p) {
+        self.clear();
         self.mode = mode;
         self.title_window=mode+" todo";
-        self.clear();
         if (mode == 'update') {
-            self.idup = p._id;
+                self.idup = p._id;
             self.titleup = p.title;
             self.descriptionup = p.description;
             self.doneup = p.done;
+
         }
     }
     self.save = function () {
+
         if (self.mode == 'add') {
             self.add().success(function () {
                 self.setmode('', '');
@@ -176,8 +184,9 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 self.setmode('', '');
             });
         }
+
     }
-})
+    })
 app.controller('myCtrl2', function ($scope, $http, $location) {
     var self = this;
     self.connect = function () {
