@@ -1,7 +1,7 @@
 var app = angular.module('myApp',
     ['ngRoute']);
 app.config(['$routeProvider',
-    function($routeProvider) {
+    function ($routeProvider) {
         $routeProvider.
             when('/login', {
                 templateUrl: '/login.html',
@@ -18,38 +18,27 @@ app.config(['$routeProvider',
                 redirectTo: '/login'
             });
     }]);
-
-var checkLoggedin = function($q, $timeout, $http, $location){
-    console.log (' in check logged in  ');
+var checkLoggedin = function ($q, $timeout, $http, $location) {
     // Initialize a new promise
     var deferred = $q.defer();
     // Make an AJAX call to check if the user is logged in
-    $http.get('/loggedin').success(function(user){
+    $http.get('/loggedin').success(function (user) {
         // Authenticated
-        if (user !== '0')
-        { //self.username=user.username;
-           // self.iduser=user._id ;
-            console.log (' in check logged in connected ');
-            console.log("in function check logged in user ="+JSON.stringify(user) );
-            console.log("username ="+user.username);
-
+        if (user !== '0') { //self.username=user.username;
+            // self.iduser=user._id ;
             deferred.resolve(user);
         }
         // Not Authenticated
         else {
-            console.log (' in check logged in  not connected ');
-
             deferred.reject();
             $location.path('/login');
-
         }
     });
     return deferred.promise;
 };
-
 app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
-
+    self.mode = '';
     self.user = loggedin;
     self.firstName = "John";
     $http({
@@ -60,27 +49,15 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         }
     }).success(function (data, status) {
         self.todos = data;
-        var ii = 0;
-
-        while (data[ii]) {
-            console.log("data ii :" + ii + JSON.stringify(data[ii]));
-            ii = ii + 1;
-        }
-
-    }).error(function(data,status){ /*  if (status ===401){console.log(' not connected ');
-    $location.path('/login');
-    }  */ });
-
-
-
-
+    }).error(function (data, status) {
+    });
     self.add = function () {
-        $http({
+        return $http({
             method: 'POST',
             url: 'http://localhost:3000/todos',
             headers: {
                 'Content-Type': 'application/json'
-            }, data: {title: self.title, description: self.description}
+            }, data: {title: self.titleup, description: self.descriptionup}
         }).success(function (data, status) {
             self.todos.push(data);
         });
@@ -93,9 +70,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 'Content-Type': 'application/json'
             }
         }).success(function (data, status) {
-            console.log("status :" + status);
             if (status === 200) {
-                console.log("delete succes and status =" + status);
                 var jj = 0;
                 while (self.todos[jj]) {
                     if (self.todos[jj]._id == id) {
@@ -104,11 +79,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                     jj = jj + 1;
                 }
             }
-            else {
-                console.log("delete failed and status =" + status);
-            }
         });
-        console.log("log in function delete and id = " + id);
     }
     self.done = function (id, p) {
         var x = !(p.done);
@@ -122,41 +93,26 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
             console.log("status :" + status);
             if (status === 200) {
                 p.done = x;
-                console.log("done succes and status =" + status + 'data = ' + JSON.stringify(data));
-            }
-            else {
-                console.log("done failed and status =" + status + 'data = ' + JSON.stringify(data));
             }
         });
-        console.log("log in function done and id = " + id);
-    }
-    self.update1 = function (p) {
-        self.idup = p._id;
-        self.titleup = p.title;
-        self.descriptionup = p.description;
-        self.doneup = p.done;
     }
     self.clear = function () {
         self.idup = "";
         self.titleup = "";
         self.descriptionup = "";
         self.doneup = "";
-    }
-    self.update2 = function (id) {
-        $http({
+    };
+    self.update2 = function () {
+        return $http({
             method: 'PUT',
             url: 'http://localhost:3000/todos/' + self.idup,
             headers: {
                 'Content-Type': 'application/json'
             }, data: { title: self.titleup, description: self.descriptionup, done: self.doneup}
         }).success(function (data, status) {
-            console.log("succes in update2 function" + "  data =" + JSON.stringify(data));
             var jj = 0;
-            console.log(" log in update 2");
             if (status === 200) {
                 while (self.todos[jj]) {
-                    console.log(" log in update 2 in while loop");
-
                     if (self.todos[jj]._id == self.idup) {
                         self.todos[jj].title = self.titleup;
                         self.todos[jj].description = self.descriptionup;
@@ -166,7 +122,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 }
             }
         });
-    }
+    };
     self.logout = function () {
         $http({
             method: 'GET',
@@ -179,19 +135,10 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 console.log(" logout success ");
                 self.todos = [];
             }
-            else {
-                console.log("logout failed");
-            }
             $location.path('/login');
         });
-    }
-
-    self.clear2 = function () {
-        self.title = "";
-        self.description = "";
-    }
+    };
     self.connect = function () {
-
         $http({
             method: 'POST',
             url: 'http://localhost:3000/login',
@@ -199,16 +146,36 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 'Content-Type': 'application/json'
             }, data: {username: self.username, password: self.password}
         }).success(function (data, status) {
-            console.log("status :" + status);
-            console.log("data  :" + JSON.stringify(data));
-          //  $location.path('/todos');
+            console.log("data  :" + JSON.stringify(data)+"status :" + status);
         });
     }
+    self.setmode = function (mode, p) {
+        self.mode = mode;
+        self.title_window=mode+" todo";
+        self.clear();
+        if (mode == 'update') {
+            self.idup = p._id;
+            self.titleup = p.title;
+            self.descriptionup = p.description;
+            self.doneup = p.done;
+        }
+    }
+    self.save = function () {
+        if (self.mode == 'add') {
+            self.add().success(function () {
+                self.setmode('', '');
+            });
+        }
+        if (self.mode == 'update') {
+            self.update2().success(function () {
+                self.setmode('', '');
+            });
+        }
+    }
 })
-app.controller('myCtrl2', function ($scope, $http,$location) {
+app.controller('myCtrl2', function ($scope, $http, $location) {
     var self = this;
     self.connect = function () {
-
         $http({
             method: 'POST',
             url: 'http://localhost:3000/login',
@@ -216,14 +183,7 @@ app.controller('myCtrl2', function ($scope, $http,$location) {
                 'Content-Type': 'application/json'
             }, data: {username: self.username, password: self.password}
         }).success(function (data, status) {
-            console.log("status :" + status);
-            console.log("data  :" + JSON.stringify(data));
             $location.path('/todos');
         });
     }
-/*
-    if(req.user){ console.log("user found");}
-    else {console.log("user dosent found");}
-*/
-
 })

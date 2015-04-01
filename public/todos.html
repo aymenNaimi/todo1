@@ -1,26 +1,31 @@
-<div >
+<div>
     <button type="submit" ng-click="mycl.logout();">logout</button>
-    <h1><span style="color:blue">  welcome {{mycl.user.username}} </span></h1><br>
-    <h1>ADD new todo</h1><br>
-    title : <input type="text" id="text4" ng-model="mycl.title"><br>
-    description: <input type="text" id="text5" ng-model="mycl.description"><br>
-    <button type="submit" ng-click="mycl.add();">ADD new todo</button>
-    <button type="submit" ng-click="mycl.clear2();">clear</button>
-    <h1>UPDATE todo </h1><br>
-    id: title : <input type="text" ng-model="mycl.idup"><br>
-    title : <input type="text" id="text1" ng-model="mycl.titleup"><br>
-    description : <input type="text" id="text2" ng-model="mycl.descriptionup"><br>
-    done : <input type="checkbox" id="checkbox1" ng-model="mycl.doneup" ng-checked="mycl.doneup">
-    <button type="submit" ng-click="mycl.update2(p._id);">update it</button>
-    <button type="submit" ng-click="mycl.clear();">clear</button>
+    <button type="submit" ng-click=" mycl.setmode('add',''); ">Add todo</button>
+    <h2><span style="color:blue">  welcome {{mycl.user.username}} </span></h2><br>
+
+    <div ng-if=" mycl.mode!='' ">
+       <span style="color:blue"> <h2>{{mycl.title_window}}</h2></span>
+        title : <input type="text" ng-model="mycl.titleup"><br>
+        description : <input type="text" ng-model="mycl.descriptionup"><br>
+
+        <div ng-if=" mycl.mode=='update' ">
+            done : <input type="checkbox" ng-model="mycl.doneup" ng-checked="mycl.doneup"><br>
+        </div>
+        <button type="submit" ng-click="mycl.save();">save</button>
+        <button type="submit" ng-click="mycl.clear();">clear</button>
+        <button type="submit" ng-click="mycl.setmode('','');">cancel</button>
+    </div>
+    <span style="color:blue">  <h2>list of todos</h2></span>
     <div ng-repeat="p in mycl.todos">
-        <div id=p._id>
+
             <p><span style="color:blue"> title : </span> {{p.title}} , </p>
+
             <p><span style="color:green">  description : </span> {{p.description}} </p>
-            <p><span style="color:red">  done  :  </span> {{p.done}} <input type="checkbox"   ng-checked=p.done></p>
+
+            <p><span style="color:red">  done  :  </span> {{p.done}} </p>
             <button type="submit" ng-click="mycl.done(p._id,p);">done/doesn't done</button>
             <button type="submit" ng-click="mycl.delete(p._id);">delete this todo</button>
-            <button type="submit" ng-click="mycl.update1(p);">update this todo</button>
-        </div>
+            <button type="submit" ng-click="mycl.setmode('update',p);">update this todo</button>
+
     </div>
 </div>
