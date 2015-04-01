@@ -5,18 +5,46 @@ app.config(['$routeProvider',
         $routeProvider.
             when('/login', {
                 templateUrl: '/login.html',
-                controller: 'myCtrl',
+                controller: 'myCtrl2',
                 controllerAs: 'mycl'
             }).
             when('/todos', {
                 templateUrl: '/todos.html',
                 controller: 'myCtrl',
-                controllerAs: 'mycl'
+                controllerAs: 'mycl',
+                resolve: { loggedin: checkLoggedin }
             }).
             otherwise({
                 redirectTo: '/login'
             });
     }]);
+
+var checkLoggedin = function($q, $timeout, $http, $location){
+    console.log (' in check logged in  ');
+    // Initialize a new promise
+    var deferred = $q.defer();
+    // Make an AJAX call to check if the user is logged in
+    $http.get('/loggedin').success(function(user){
+        // Authenticated
+        if (user !== '0')
+        { //self.username=user.username;
+           // self.iduser=user._id ;
+            console.log (' in check logged in connected ');
+            deferred.resolve();
+
+        }
+        // Not Authenticated
+        else {
+            console.log (' in check logged in  not connected ');
+
+            deferred.reject();
+            $location.path('/login');
+
+        }
+    });
+    return deferred.promise;
+};
+
 app.controller('myCtrl', function ($scope, $http,$location) {
     var self = this;
 
@@ -30,11 +58,39 @@ app.controller('myCtrl', function ($scope, $http,$location) {
     }).success(function (data, status) {
         self.todos = data;
         var ii = 0;
+
         while (data[ii]) {
             console.log("data ii :" + ii + JSON.stringify(data[ii]));
             ii = ii + 1;
         }
-    });
+
+    }).error(function(data,status){ /*  if (status ===401){console.log(' not connected ');
+    $location.path('/login');
+    }  */ });
+   /*
+    self.login= function(){
+
+
+
+
+
+
+   }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     self.add = function () {
         $http({
             method: 'POST',
@@ -162,7 +218,29 @@ app.controller('myCtrl', function ($scope, $http,$location) {
         }).success(function (data, status) {
             console.log("status :" + status);
             console.log("data  :" + JSON.stringify(data));
+          //  $location.path('/todos');
+        });
+    }
+})
+app.controller('myCtrl2', function ($scope, $http,$location) {
+    var self = this;
+    self.connect = function () {
+
+        $http({
+            method: 'POST',
+            url: 'http://localhost:3000/login',
+            headers: {
+                'Content-Type': 'application/json'
+            }, data: {username: self.username, password: self.password}
+        }).success(function (data, status) {
+            console.log("status :" + status);
+            console.log("data  :" + JSON.stringify(data));
             $location.path('/todos');
         });
     }
+/*
+    if(req.user){ console.log("user found");}
+    else {console.log("user dosent found");}
+*/
+
 })

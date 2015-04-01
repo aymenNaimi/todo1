@@ -165,6 +165,11 @@ app
         });
     });
 
+app
+    .get('/loggedin', function (req, res) {
+        res.json(req.isAuthenticated() ? req.user : '0');
+    });
+
 
 app
     .route('/todos/:id').get(function (req, res, next) {
