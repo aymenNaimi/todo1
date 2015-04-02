@@ -50,8 +50,11 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     }).success(function (data, status) {
         self.todos = data;
     }).error(function (data, status) {
+        console.log("log in http get in controller in block error " + "status = " + status + "data =" + JSON.stringify(data));
     });
     self.add = function () {
+
+
         return $http({
             method: 'POST',
             url: 'http://localhost:3000/todos',
@@ -60,31 +63,50 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
             }, data: {title: self.titleup, description: self.descriptionup}
         }).success(function (data, status) {
             self.todos.push(data);
+        }).error(function (data, status) {
+            if (status === 400) {
+
+                console.log("log in function add in block error " + "status = " + status + "data =" + JSON.stringify(data));
+                if (data.errors.description) {
+                    self.errdescription = data.errors.description.message;
+                }
+                if (data.errors.title) {
+                    self.errtitle = data.errors.title.message;
+                }
+                //        alert(((data.errors.title)? (data.errors.title.message): '')+' , '+((data.errors.description)? (data.errors.description.message): ''));
+            }
+            else {
+                alert('error in server');
+            }
         });
+
+
     }
     self.delete = function (id) {
         if (confirm('do you what to delete this from todo from database?')) {
             // Save it!
 
-        $http({
-            method: 'DELETE',
-            url: 'http://localhost:3000/todos/' + id,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).success(function (data, status) {
-            if (status === 200) {
-                var jj = 0;
-                while (self.todos[jj]) {
-               var     notdeleted=true;
-                    if (self.todos[jj]._id == id && notdeleted) {
-                        self.todos.splice(jj, 1);
-                        notdeleted=false;
-                    }
-                    jj = jj + 1;
+            $http({
+                method: 'DELETE',
+                url: 'http://localhost:3000/todos/' + id,
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            }
-        });
+            }).success(function (data, status) {
+                if (status === 200) {
+                    var jj = 0;
+                    while (self.todos[jj]) {
+                        var notdeleted = true;
+                        if (self.todos[jj]._id == id && notdeleted) {
+                            self.todos.splice(jj, 1);
+                            notdeleted = false;
+                        }
+                        jj = jj + 1;
+                    }
+                }
+            }).error(function (data, status) {
+                console.log("log in function delete in block error " + "status = " + status + "data =" + JSON.stringify(data));
+            });
 
         }
     }
@@ -101,6 +123,8 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
             if (status === 200) {
                 p.done = x;
             }
+        }).error(function (data, status) {
+            console.log("log in function done in block error " + "status = " + status + "data =" + JSON.stringify(data));
         });
     }
     self.clear = function () {
@@ -108,6 +132,10 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         self.titleup = "";
         self.descriptionup = "";
         self.doneup = "";
+        self.errtitle = "";
+        self.errdescription = "";
+
+
     };
     self.update2 = function () {
         return $http({
@@ -119,17 +147,32 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         }).success(function (data, status) {
             var jj = 0;
             if (status === 200) {
-                var notmodfied = true ;
+                var notmodfied = true;
                 while (self.todos[jj] && notmodfied) {
                     if (self.todos[jj]._id == self.idup) {
                         self.todos[jj].title = self.titleup;
                         self.todos[jj].description = self.descriptionup;
                         self.todos[jj].done = self.doneup;
-                        notmodfied=false ;
+                        notmodfied = false;
 
                     }
                     jj = jj + 1;
                 }
+            }
+        }).error(function (data, status) {
+            if (status === 400) {
+
+                console.log("log in function update in block error " + "status = " + status + "data =" + JSON.stringify(data));
+                if (data.errors.description) {
+                    self.errdescription = data.errors.description.message;
+                }
+                if (data.errors.title) {
+                    self.errtitle = data.errors.title.message;
+                }
+                //   alert(((data.errors.title)? (data.errors.title.message): '')+' , '+((data.errors.description)? (data.errors.description.message): ''));
+            }
+            else {
+                alert('error in server');
             }
         });
 
@@ -157,36 +200,30 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 'Content-Type': 'application/json'
             }, data: {username: self.username, password: self.password}
         }).success(function (data, status) {
-            console.log("data  :" + JSON.stringify(data)+"status :" + status);
+            console.log("data  :" + JSON.stringify(data) + "status :" + status);
         });
-    }
+    };
     self.setmode = function (mode, p) {
         self.clear();
         self.mode = mode;
-        self.title_window=mode+" todo";
+        self.title_window = mode + " todo";
         if (mode == 'update') {
-                self.idup = p._id;
+            self.idup = p._id;
             self.titleup = p.title;
             self.descriptionup = p.description;
             self.doneup = p.done;
 
         }
-    }
-    self.save = function () {
-
-        if (self.mode == 'add') {
-            self.add().success(function () {
+    };
+    self.save = function (form) {
+        if (form.$valid) {
+            var save = self.mode == 'add' ? self.add : self.update2;
+            save().success(function () {
                 self.setmode('', '');
             });
         }
-        if (self.mode == 'update') {
-            self.update2().success(function () {
-                self.setmode('', '');
-            });
-        }
-
     }
-    })
+});
 app.controller('myCtrl2', function ($scope, $http, $location) {
     var self = this;
     self.connect = function () {

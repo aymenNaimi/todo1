@@ -23,8 +23,7 @@ var Schema = mongoose.Schema;
 var TodoSchema = new Schema({
     title: {
         type: String,
-        trim: true,
-        required: true
+        trim: true
     },
     description: {
         type: String,
@@ -52,6 +51,9 @@ TodoSchema.path('title')
         return (value !== 'reserved');
     }, 'this title  reserved')
     .validate(function (value) {
+        return (value !== 'title');
+    }, 'this title  reserved')
+    .validate(function (value) {
         return (value.length > 3);
     }, 'title should be more than 4 caractéres')
     .validate(function (value, respond) {
@@ -65,7 +67,19 @@ TodoSchema.path('title')
         query.count(function (err, count) {
             respond(!err && count === 0);
         });
-    }, 'the title existe');
+    }, 'this title found');
+
+
+TodoSchema.path('description')
+    .validate(function (value) {
+       console.log("description ="+value);
+
+        return (value.length > 0);
+    }, 'description required')
+    .validate(function (value) {
+        return (value !== 'description');
+    }, 'this description reserved')
+ ;
 
 isConnected = function (req, res, next) {
     if (!req.user)
@@ -269,6 +283,7 @@ app
     });
 
 app.use(function(err, req, res, next) {
+    console.log("in error management error ="+JSON.stringify(err)) ;
     if(err.name === "ValidationError"){
 
         res.json(400, err);
