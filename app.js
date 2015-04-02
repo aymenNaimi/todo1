@@ -23,8 +23,7 @@ var Schema = mongoose.Schema;
 var TodoSchema = new Schema({
     title: {
         type: String,
-        trim: true,
-        required: true
+        trim: true
     },
     description: {
         type: String,
@@ -52,6 +51,9 @@ TodoSchema.path('title')
         return (value !== 'reserved');
     }, 'this title  reserved')
     .validate(function (value) {
+        return (value !== 'title');
+    }, 'this title  reserved')
+    .validate(function (value) {
         return (value.length > 3);
     }, 'title should be more than 4 caractéres')
     .validate(function (value, respond) {
@@ -65,7 +67,19 @@ TodoSchema.path('title')
         query.count(function (err, count) {
             respond(!err && count === 0);
         });
-    }, 'the title existe');
+    }, 'this title found');
+
+
+TodoSchema.path('description')
+    .validate(function (value) {
+       console.log("description ="+value);
+
+        return (value.length > 0);
+    }, 'description required')
+    .validate(function (value) {
+        return (value !== 'description');
+    }, 'this description reserved')
+ ;
 
 isConnected = function (req, res, next) {
     if (!req.user)
@@ -118,6 +132,8 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+app.use(express.static(__dirname + '/public'));
+app.use('/lib', express.static(__dirname + '/bower_components'));
 
 app
     .get('/todos', function (req, res, next) {
@@ -148,15 +164,9 @@ app
 
 
             if (err) {
-
               return next(err);
 
-/*
-                console.log("err msg : " + err.message);
-                console.log("  err color messsage :" + err.errors.title.message);
 
-                res.json(400, err.errors.title.message);
-                */
             }
             else if (!(todo.title && todo.description)) {
 
@@ -167,6 +177,11 @@ app
             }
 
         });
+    });
+
+app
+    .get('/loggedin', function (req, res) {
+        res.json(req.isAuthenticated() ? req.user : '0');
     });
 
 
@@ -189,6 +204,10 @@ app
     })
     .post(function (req, res) {
         res.json({"post by  id": req.params.id});
+
+
+
+
     })
     .put(function (req, res, next) {
         isConnected(req, res, next)
@@ -264,6 +283,7 @@ app
     });
 
 app.use(function(err, req, res, next) {
+    console.log("in error management error ="+JSON.stringify(err)) ;
     if(err.name === "ValidationError"){
 
         res.json(400, err);
