@@ -40,6 +40,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
     self.mode = '';
     self.user = loggedin;
+    $('#id_alert').hide();
     self.firstName = "John";
     $http({
         method: 'GET',
@@ -83,8 +84,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
 
     }
     self.delete = function (id) {
-        if (confirm('do you what to delete this from todo from database?')) {
-            // Save it!
+
 
             $http({
                 method: 'DELETE',
@@ -104,11 +104,16 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                         jj = jj + 1;
                     }
                 }
+                $('#id_alert').hide();
+                self.idup="" ;
+                self.titleup="" ;
+
+
             }).error(function (data, status) {
                 console.log("log in function delete in block error " + "status = " + status + "data =" + JSON.stringify(data));
             });
 
-        }
+
     }
     self.done = function (id, p) {
         var x = !(p.done);
@@ -203,6 +208,21 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
             console.log("data  :" + JSON.stringify(data) + "status :" + status);
         });
     };
+
+    self.ready_delete = function(id,title) {
+        self.idup=id ;
+        self.titleup=title ;
+         $('#id_alert').show();
+
+    }
+
+
+    self.hide_alert = function(){
+        $('#id_alert').hide();
+        self.idup="" ;
+        self.titleup=" ;"
+    }
+
     self.setmode = function (mode, p) {
         self.clear();
         self.mode = mode;
@@ -238,3 +258,4 @@ app.controller('myCtrl2', function ($scope, $http, $location) {
         });
     }
 })
+
