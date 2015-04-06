@@ -1,36 +1,16 @@
 <div>
-
-
-
     <h2 class="text-center"><span class="label label-info">  welcome {{mycl.user.username}} </span></h2><br>
-
     <button type="submit" class="btn btn-default" ng-click=" mycl.setmode('Add',''); ">Add todo</button>
+    <div id="id_alert" class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="alert alert-danger" role="alert">Do you whant de delet the {{mycl.titleup}} ?
+                <br>
+                <button class="btn btn-sm btn-danger" type="submit" ng-click="mycl.delete(mycl.idup) ;">Yes</button>
+                <button class="btn btn-sm btn-success" ng-click=" mycl.hide_alert(); ">No</button>
+            </div>
 
-                    <div id="id_alert" class="row" >
-                        <div  class="col-sm-4 col-sm-offset-4">
-
-        <div class="alert alert-danger" role="alert">Do you whant de delet the {{mycl.titleup}}  ?
-
-
-            <br>
-            <button class="btn btn-sm btn-danger" type="submit" ng-click="mycl.delete(mycl.idup) ;">Yes</button>
-            <button class="btn btn-sm btn-success" ng-click=" mycl.hide_alert(); ">No</button>
         </div>
-
-                        </div> </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </div>
     <div ng-if=" mycl.mode!='' ">
 
         <div class="row">
@@ -40,111 +20,92 @@
                         <h3 class="panel-title text-center">{{mycl.title_window}}</h3>
                     </div>
                     <div class="panel-body">
-
-
                         <form name="myForm" novalidate>
-
                             <div class="form-group has-error">
-                                <label >Title</label>
-
-
+                                <label>Title</label>
                                 <input type="text" class="form-control " placeholder="title" name="title"
                                        ng-model="mycl.titleup" ng-minlength="4" ng-maxlength="20"
                                        ng-change=" mycl.errtitle='' " required>
-                                <div class=" help-block " >
-                                <span  ng-show="myForm.title.$error.required"> Required!</span>
-                                <span  ng-show="myForm.title.$error.minlength">  Too short!</span>
-                                <span ng-show="myForm.title.$error.maxlength"> Too long!</span>
-                                <span >{{mycl.errtitle}}</span><br>
+
+                                <div class=" help-block ">
+                                    <span ng-show="myForm.title.$error.required"> Required!</span>
+                                    <span ng-show="myForm.title.$error.minlength">  Too short!</span>
+                                    <span ng-show="myForm.title.$error.maxlength"> Too long!</span>
+                                    <span>{{mycl.errtitle}}</span><br>
+                                </div>
                             </div>
-                            </div>
-                            <div class="form-group has-error">
+                            <div class="form-group"
+                                 ng-class="{'has-error': myForm.description.$invalid || mycl.errdescription}">
                                 <label>Description</label>
                                 <input type="text" class="form-control" placeholder="description" name="description"
                                        ng-maxlength="20" ng-model="mycl.descriptionup"
                                        ng-change=" mycl.errdescription='' "
                                        required>
 
-                                <div class=" help-block " >
-                                <span ng-show="myForm.description.$error.required"> Required!</span>
-                                <span  ng-show="myForm.description.$error.maxlength">  Too long!</span>
-                                <span >{{mycl.errdescription}}</span>
+                                <div class=" help-block ">
+                                    <span ng-show="myForm.description.$error.required"> Required!</span>
+                                    <span ng-show="myForm.description.$error.maxlength">  Too long!</span>
+                                    <span>{{mycl.errdescription}}</span>
                                 </div>
-
                                 <br>
                             </div>
                             <div ng-if=" mycl.mode=='update' ">
                                 <label>done :</label><input type="checkbox" ng-model="mycl.doneup"
                                                             ng-checked="mycl.doneup"><br>
                             </div>
-
-
                             <button class="btn btn-md btn-success" type="submit" ng-click="mycl.save(myForm);">save
                             </button>
                             <button class="btn btn-md btn-warning" type="submit" ng-click="mycl.clear();">clear</button>
                             <button class="btn btn-md btn-primary" type="submit" ng-click="mycl.setmode('','');">cancel
                             </button>
                         </form>
-
                     </div>
-
-
                 </div>
 
             </div>
         </div>
     </div>
-
-
-
-        <div ng-if="mycl.mode =='' " class="login-panel panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title text-center">List of todos</h3>
-            </div>
-            <div class="panel-body">
-
-                <table class="table table-striped">
-                    <thead style="color : blue ; font-weight: bold;">
-
-                    <tr>
-                        <td>Title</td>
-                        <td>Description</td>
-                        <td>Done</td>
-
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-
-                    <tr ng-repeat="l in mycl.todos">
-
-                        <td>{{l.title}}</td>
-                        <td>{{l.description}}</td>
-                        <td>{{l.done}}</td>
-                        <td>
-                            <button type="submit" class="btn btn-xs btn-success" ng-click="mycl.done(l._id,l);">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true="></span>
-                            </button>
-
-                            <button type="submit" class="btn btn-xs btn-warning" ng-click="mycl.setmode('Update',l);">
-                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                            </button>
-                            <button type="submit" class="btn btn-xs btn-danger" ng-click="mycl.ready_delete(l._id,l.title);">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </button>
-
-                        </td>
-
-                    </tr>
-                    </tbody>
-
-                </table>
-
-            </div>
+    <div ng-if="mycl.mode =='' " class="login-panel panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title text-center">List of todos</h3>
         </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead style="color : blue ; font-weight: bold;">
+                <tr>
+                    <td>Title</td>
+                    <td>Description</td>
+                    <td>Done</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="l in mycl.todos">
+                    <td>{{l.title}}</td>
+                    <td>{{l.description}}</td>
+                    <td><span style=" color : green " ng-if="l.done" class="glyphicon glyphicon-ok"
+                              aria-hidden="true="></span>
+                        <span ng-if=" !(l.done)" style=" color : red " class="glyphicon glyphicon-remove"
+                              aria-hidden="true="></span>
+                        {{l.done}}
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-xs btn-success" ng-click="mycl.done(l._id,l);">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true="></span>
+                        </button>
 
-
+                        <button type="submit" class="btn btn-xs btn-warning" ng-click="mycl.setmode('Update',l);">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </button>
+                        <button type="submit" class="btn btn-xs btn-danger"
+                                ng-click="mycl.ready_delete(l._id,l.title);">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 

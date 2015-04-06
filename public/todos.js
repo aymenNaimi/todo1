@@ -55,14 +55,20 @@ app.run(function($rootScope,$http) {
             if (status === 200) {
                 console.log(" logout success ");
                 self.todos = [];
+                console.log(  '$rootScope.connectedb = '+ $rootScope.connected);
+                $rootScope.connected= false;
+                console.log(  '$rootScope.connectedb = '+ $rootScope.connected);
             }
-            $location.path('/login');
+           // $location.path('/login');
         });
     };
+
+    $rootScope.connected= false;
     // you can inject any instance here
 });
 app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
+
     self.mode = '';
     self.user = loggedin;
     $('#id_alert').hide();
@@ -229,6 +235,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         });
     };
     */
+    /*
     self.connect = function () {
         $http({
             method: 'POST',
@@ -237,10 +244,14 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
                 'Content-Type': 'application/json'
             }, data: {username: self.username, password: self.password}
         }).success(function (data, status) {
+
             console.log("data  :" + JSON.stringify(data) + "status :" + status);
+
+
+
         });
     };
-
+*/
     self.ready_delete = function(id,title) {
         self.idup=id ;
         self.titleup=title ;
@@ -276,8 +287,11 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         }
     }
 });
-app.controller('myCtrl2', function ($scope, $http, $location) {
+app.controller('myCtrl2', function ($scope, $http, $location,$rootScope) {
     var self = this;
+
+
+
     self.connect = function () {
         $http({
             method: 'POST',
@@ -286,7 +300,11 @@ app.controller('myCtrl2', function ($scope, $http, $location) {
                 'Content-Type': 'application/json'
             }, data: {username: self.username, password: self.password}
         }).success(function (data, status) {
+
+            $rootScope.connected=  true;
+
             $location.path('/todos');
+
         });
     }
     /*

@@ -87,9 +87,7 @@ isConnected = function (req, res, next) {
     else
         next();
 }
-
 var User = mongoose.model('User', UserSchema);
-
 var app = express();
 app.use(bodyParser.json());
 app.use(session({
@@ -97,10 +95,8 @@ app.use(session({
     resave: true,
     secret: 'secret123'
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.use(new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password'
