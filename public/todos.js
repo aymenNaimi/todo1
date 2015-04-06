@@ -36,11 +36,24 @@ var checkLoggedin = function ($q, $timeout, $http, $location) {
     });
     return deferred.promise;
 };
+/*
+$(".idnavhome").on("click", function(){
+    // $(".nav").find(".active").removeClass("active");
+    $(this).addClass("active");
+});
+*/
+
+
 app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
     self.mode = '';
     self.user = loggedin;
     $('#id_alert').hide();
+
+
+
+
+
     self.firstName = "John";
     $http({
         method: 'GET',
@@ -257,5 +270,20 @@ app.controller('myCtrl2', function ($scope, $http, $location) {
             $location.path('/todos');
         });
     }
+    self.logout = function () {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:3000/logout',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status) {
+            if (status === 200) {
+                console.log(" logout success ");
+                self.todos = [];
+            }
+            $location.path('/login');
+        });
+    };
 })
 
