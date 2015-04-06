@@ -1,16 +1,10 @@
 <div>
-    <ul class="nav nav-pills">
 
-        <li role="presentation"><a href="#/login">Login</a></li>
-        <li role="presentation" class="active"><a href="#/todos">Home</a></li>
-        <li role="presentation"><a ng-click="mycl.logout() ;">Logout</a></li>
 
-    </ul>
 
-    <button type="submit" class="btn btn-default" ng-click=" mycl.setmode('add',''); ">Add todo</button>
     <h2 class="text-center"><span class="label label-info">  welcome {{mycl.user.username}} </span></h2><br>
 
-
+    <button type="submit" class="btn btn-default" ng-click=" mycl.setmode('Add',''); ">Add todo</button>
 
                     <div id="id_alert" class="row" >
                         <div  class="col-sm-4 col-sm-offset-4">
@@ -43,7 +37,7 @@
             <div class="col-sm-4 col-sm-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{mycl.title_window}}</h3>
+                        <h3 class="panel-title text-center">{{mycl.title_window}}</h3>
                     </div>
                     <div class="panel-body">
 
@@ -51,7 +45,7 @@
                         <form name="myForm" novalidate>
 
                             <div class="form-group has-error">
-                                <label>Title</label>
+                                <label >Title</label>
 
 
                                 <input type="text" class="form-control " placeholder="title" name="title"
@@ -105,7 +99,7 @@
 
         <div ng-if="mycl.mode =='' " class="login-panel panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">list of todos</h3>
+                <h3 class="panel-title text-center">List of todos</h3>
             </div>
             <div class="panel-body">
 
@@ -133,7 +127,7 @@
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true="></span>
                             </button>
 
-                            <button type="submit" class="btn btn-xs btn-warning" ng-click="mycl.setmode('update',l);">
+                            <button type="submit" class="btn btn-xs btn-warning" ng-click="mycl.setmode('Update',l);">
                                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                             </button>
                             <button type="submit" class="btn btn-xs btn-danger" ng-click="mycl.ready_delete(l._id,l.title);">

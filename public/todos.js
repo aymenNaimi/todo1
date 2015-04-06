@@ -43,7 +43,24 @@ $(".idnavhome").on("click", function(){
 });
 */
 
-
+app.run(function($rootScope,$http) {
+    $rootScope.logout = function () {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:3000/logout',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status) {
+            if (status === 200) {
+                console.log(" logout success ");
+                self.todos = [];
+            }
+            $location.path('/login');
+        });
+    };
+    // you can inject any instance here
+});
 app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
     self.mode = '';
@@ -195,6 +212,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         });
 
     };
+    /*
     self.logout = function () {
         $http({
             method: 'GET',
@@ -210,6 +228,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
             $location.path('/login');
         });
     };
+    */
     self.connect = function () {
         $http({
             method: 'POST',
@@ -240,7 +259,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         self.clear();
         self.mode = mode;
         self.title_window = mode + " todo";
-        if (mode == 'update') {
+        if (mode == 'Update') {
             self.idup = p._id;
             self.titleup = p.title;
             self.descriptionup = p.description;
@@ -250,7 +269,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     };
     self.save = function (form) {
         if (form.$valid) {
-            var save = self.mode == 'add' ? self.add : self.update2;
+            var save = self.mode == 'Add' ? self.add : self.update2;
             save().success(function () {
                 self.setmode('', '');
             });
@@ -270,6 +289,7 @@ app.controller('myCtrl2', function ($scope, $http, $location) {
             $location.path('/todos');
         });
     }
+    /*
     self.logout = function () {
         $http({
             method: 'GET',
@@ -285,5 +305,9 @@ app.controller('myCtrl2', function ($scope, $http, $location) {
             $location.path('/login');
         });
     };
+    */
 })
+
+
+
 
