@@ -1,16 +1,9 @@
-var passport = require('passport');
+
 var express = require('express');
-var usersController = require('../controllers/users.controller.js');
+var usersController = require('./users.controller');
+var router = express.Router();
+router.post('/login',usersController.login  );
+router.get('/logout',usersController.logout);
 
 
-
-module.exports = function() {
-
-    var app =express();
-    app.post('/login',usersController.login  )
-    app.get('/logout',usersController.logout);
-    app.get('/loggedin',usersController.loggedIn);
-
-    return app
-
-}
+module.exports = router ;

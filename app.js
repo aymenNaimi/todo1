@@ -20,7 +20,7 @@ var Schema = mongoose.Schema;
 
 //var Todo = require('./server/models/todos.model.js');
 //var TodoController = require('./server/controllers/todos.controller.js');
-
+/*
 var UserSchema = new Schema({
     username: String,
     password: String,
@@ -28,16 +28,20 @@ var UserSchema = new Schema({
     last_name: String,
     email: String
 });
-
-
-
+var User = mongoose.model('User', UserSchema);
+*/
+/*
 isConnected = function (req, res, next) {
     if (!req.user)
         return res.send(401);
     else
         next();
 }
-var User = mongoose.model('User', UserSchema);
+*/
+
+var User = require('./server/api/users/users.model.js');
+
+
 var app = express();
 app.use(bodyParser.json());
 app.use(session({
@@ -201,6 +205,7 @@ app.route('/todos/:id')
         });
     });
 */
+/*
 app
     .post('/login', function (req, res, next) {
         passport.authenticate('local', function (err, user) {
@@ -222,7 +227,7 @@ app
         req.logout();
         res.send();
     });
-
+*/
 app.use(function(err, req, res, next) {
     console.log("in error management error ="+JSON.stringify(err)) ;
     if(err.name === "ValidationError"){

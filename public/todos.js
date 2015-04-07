@@ -44,7 +44,7 @@ app.run(function($rootScope,$http) {
     $rootScope.logout = function () {
         $http({
             method: 'GET',
-            url: 'http://localhost:3000/logout',
+            url: 'http://localhost:3000/users/logout',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -223,7 +223,7 @@ app.controller('myCtrl2', function ($scope, $http, $location,$rootScope) {
     self.connect = function () {
         $http({
             method: 'POST',
-            url: 'http://localhost:3000/login',
+            url: 'http://localhost:3000/users/login',
             headers: {
                 'Content-Type': 'application/json'
             }, data: {username: self.username, password: self.password}
