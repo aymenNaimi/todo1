@@ -6,7 +6,7 @@ var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-
+/*
 mongoose.connect('mongodb://localhost/dbtodo1');
 
 var db = mongoose.connection;
@@ -16,7 +16,8 @@ db.once('open', function (callback) {
 });
 
 var Schema = mongoose.Schema;
-
+*/
+var Schema = require('./server/config/schema.js'); ;
 
 //var Todo = require('./server/models/todos.model.js');
 //var TodoController = require('./server/controllers/todos.controller.js');
@@ -39,11 +40,16 @@ isConnected = function (req, res, next) {
 }
 */
 
-var User = require('./server/api/users/users.model.js');
+//var User = require('./server/api/users/users.model.js');
 
 
 var app = express();
+require('./server/config/express.js')(app);
+/*
 app.use(bodyParser.json());
+
+
+
 app.use(session({
     saveUninitialized: true,
     resave: true,
@@ -51,6 +57,10 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+*/
+require('./server/config/passport.js')(passport);
+
+/*
 passport.use(new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password'
@@ -81,6 +91,9 @@ passport.deserializeUser(function (id, done) {
         done(err, user);
     });
 });
+*/
+
+
 
 app.use(express.static(__dirname + '/public'));
 app.use('/lib', express.static(__dirname + '/bower_components'));
