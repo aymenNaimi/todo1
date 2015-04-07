@@ -1,34 +1,24 @@
 var Todo = require('./todos.model.js');
-exports.addTodo = function(req, res, next) {
+exports.addTodo = function (req, res, next) {
+    var todo = new Todo({ title: req.body.title, description: req.body.description, done: false, user_id: req.user.id });
+    todo.save(function (err, todo) {
+        if (err) {
+            return next(err);
+        }
+        else if (!(todo.title && todo.description)) {
 
-
-        var todo = new Todo({ title: req.body.title, description: req.body.description, done: false, user_id: req.user.id });
-
-        todo.save(function (err, todo) {
-
-
-            if (err) {
-                return next(err);
-
-
-            }
-            else if (!(todo.title && todo.description)) {
-
-                return res.json(400, "put tile and description");
-            }
-            else {
-                res.json(201, todo);
-            }
-
-        });
+            return res.json(400, "put tile and description");
+        }
+        else {
+            res.json(201, todo);
+        }
+    });
 
 };
-
 exports.getAllTodos = function (req, res) {
     Todo.find({user_id: req.user.id}, function (err, todos) {
         if (err) {
             return next(err);
-
         }
         else if (!todos) {
             return res.json(404, todos);
@@ -39,8 +29,6 @@ exports.getAllTodos = function (req, res) {
     });
 
 };
-
-
 exports.getOneTodo = function (req, res) {
     Todo.findOne({_id: req.params.id, user_id: req.user.id}, function (err, todo) {
         if (err) {
@@ -55,11 +43,7 @@ exports.getOneTodo = function (req, res) {
         }
     });
 };
-
-
-exports.updateTodo= function (req, res, next) {
-
-
+exports.updateTodo = function (req, res, next) {
     Todo.findOne({ _id: req.params.id, user_id: req.user.id}, function (err, todo) {
         if (err) {
             return next(err);
@@ -87,11 +71,8 @@ exports.updateTodo= function (req, res, next) {
             }
         );
     });
-
-
 }
-exports.deleteTodo= function (req, res, next) {
-
+exports.deleteTodo = function (req, res, next) {
     Todo.findOne({_id: req.params.id, user_id: req.user.id}, function (err, todo) {
 
         if (err) {
@@ -106,18 +87,12 @@ exports.deleteTodo= function (req, res, next) {
     });
 
 }
-
-
 exports.isloggedin = function (req, res, next) {
     if (!req.user)
         return res.send(401);
     else
         next();
 }
-
-exports.loggedIn =function (req, res) {
-
+exports.loggedIn = function (req, res) {
     res.json(req.isAuthenticated() ? req.user : '0');
-
-
 };

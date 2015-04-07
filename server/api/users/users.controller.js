@@ -2,7 +2,6 @@ var User = require('./users.model.js');
 var passport = require('passport');
 var express = require('express');
 exports.login = function (req, res, next) {
-    console.log('h1');
     passport.authenticate('local', function (err, user) {
         if (err)
             return next(err);
