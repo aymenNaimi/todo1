@@ -21,7 +21,7 @@
                     </div>
                     <div class="panel-body">
                         <form name="myForm" novalidate>
-                            <div class="form-group has-error">
+                            <div class="form-group" ng-class="{'has-error': myForm.title.$invalid || mycl.errtitle}">
                                 <label>Title</label>
                                 <input type="text" class="form-control " placeholder="title" name="title"
                                        ng-model="mycl.titleup" ng-minlength="4" ng-maxlength="20"
@@ -49,7 +49,7 @@
                                 </div>
                                 <br>
                             </div>
-                            <div ng-if=" mycl.mode=='update' ">
+                            <div ng-if=" mycl.mode=='Update' ">
                                 <label>done :</label><input type="checkbox" ng-model="mycl.doneup"
                                                             ng-checked="mycl.doneup"><br>
                             </div>
