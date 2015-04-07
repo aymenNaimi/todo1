@@ -80,7 +80,8 @@ passport.deserializeUser(function (id, done) {
 
 app.use(express.static(__dirname + '/public'));
 app.use('/lib', express.static(__dirname + '/bower_components'));
-
+require('./routes.js')(app);
+/*
 app
     .get('/todos', function (req, res, next) {
         isConnected(req, res, next);
@@ -98,7 +99,7 @@ app
             }
         });
     });
-
+*/
 /*
 app
     .post('/todos', function (req, res, next) {
@@ -109,13 +110,14 @@ app
     });
 */
 
-require('./routes.js')(app);
+
+/*
 app
     .get('/loggedin', function (req, res) {
         res.json(req.isAuthenticated() ? req.user : '0');
     });
-
-
+*/
+/*
 app
     .route('/todos/:id').get(function (req, res, next) {
         isConnected(req, res, next)
@@ -133,14 +135,19 @@ app
             }
         });
     })
-    .post(function (req, res) {
+*/
+/*
+app
+    .route('/todos/:id').post(function (req, res) {
         res.json({"post by  id": req.params.id});
 
 
 
 
     })
-    .put(function (req, res, next) {
+*/
+/*
+app.route('/todos/:id').put(function (req, res, next) {
         isConnected(req, res, next)
     }, function (req, res, next) {
 
@@ -174,6 +181,9 @@ app
 
 
     })
+*/
+/*
+app.route('/todos/:id')
     .delete(function (req, res, next) {
         isConnected(req, res, next)
     }, function (req, res) {
@@ -190,7 +200,7 @@ app
             }
         });
     });
-
+*/
 app
     .post('/login', function (req, res, next) {
         passport.authenticate('local', function (err, user) {

@@ -1,4 +1,4 @@
-var Todo = require('../models/todos.model.js');
+var Todo = require('./todos.model.js');
 exports.addTodo = function(req, res, next) {
 
 
@@ -23,7 +23,7 @@ exports.addTodo = function(req, res, next) {
         });
 
 };
-/*
+
 exports.getAllTodos = function (req, res) {
     Todo.find({user_id: req.user.id}, function (err, todos) {
         if (err) {
@@ -40,7 +40,7 @@ exports.getAllTodos = function (req, res) {
 
 };
 
-*/
+
 exports.getOneTodo = function (req, res) {
     Todo.findOne({_id: req.params.id, user_id: req.user.id}, function (err, todo) {
         if (err) {
@@ -108,3 +108,16 @@ exports.deleteTodo= function (req, res, next) {
 }
 
 
+exports.isloggedin = function (req, res, next) {
+    if (!req.user)
+        return res.send(401);
+    else
+        next();
+}
+
+exports.loggedIn =function (req, res) {
+
+    res.json(req.isAuthenticated() ? req.user : '0');
+
+
+};

@@ -1,4 +1,4 @@
-var User = require('../models/users.model.js');
+var User = require('../../models/users.model.js');
 var passport = require('passport');
 var express = require('express');
 exports.login = function (req, res, next) {
@@ -25,13 +25,5 @@ exports.logout = function (req, res) {
 
 
 
-exports.isloggedin = function (req, res, next) {
-    if (!req.user)
-        return res.send(401);
-    else
-        next();
-}
 
-exports.loggedIn =function (req, res) {
-    res.json(req.isAuthenticated() ? req.user : '0');
-};
+
