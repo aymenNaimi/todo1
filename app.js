@@ -1,6 +1,3 @@
-/**
- * Created by aymen on 18/03/15.
- */
 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -20,22 +17,9 @@ db.once('open', function (callback) {
 
 var Schema = mongoose.Schema;
 
-var TodoSchema = new Schema({
-    title: {
-        type: String,
-        trim: true
-    },
-    description: {
-        type: String,
-        trim: true
 
-    },
-    done: Boolean,
-    user_id: { type: Schema.Types.ObjectId, ref: 'Story' }
-});
-
-
-var Todo = mongoose.model('Todo', TodoSchema);
+//var Todo = require('./server/models/todos.model.js');
+//var TodoController = require('./server/controllers/todos.controller.js');
 
 var UserSchema = new Schema({
     username: String,
@@ -46,40 +30,6 @@ var UserSchema = new Schema({
 });
 
 
-TodoSchema.path('title')
-    .validate(function (value) {
-        return (value !== 'reserved');
-    }, 'this title  reserved')
-    .validate(function (value) {
-        return (value !== 'title');
-    }, 'this title  reserved')
-    .validate(function (value) {
-        return (value.length > 3);
-    }, 'title should be more than 4 caractéres')
-    .validate(function (value, respond) {
-        var query = Todo
-            .where('title', value)
-            .where('user_id', this.user_id);
-
-        if (this._id)
-            query.where('_id').ne(this._id);
-
-        query.count(function (err, count) {
-            respond(!err && count === 0);
-        });
-    }, 'this title found');
-
-
-TodoSchema.path('description')
-    .validate(function (value) {
-       console.log("description ="+value);
-
-        return (value.length > 0);
-    }, 'description required')
-    .validate(function (value) {
-        return (value !== 'description');
-    }, 'this description reserved')
- ;
 
 isConnected = function (req, res, next) {
     if (!req.user)
@@ -149,32 +99,17 @@ app
         });
     });
 
+/*
 app
     .post('/todos', function (req, res, next) {
         isConnected(req, res, next)
     }, function (req, res,next) {
 
-        var todo = new Todo({ title: req.body.title, description: req.body.description, done: false, user_id: req.user.id });
-
-        todo.save(function (err, todo) {
-
-
-            if (err) {
-              return next(err);
-
-
-            }
-            else if (!(todo.title && todo.description)) {
-
-                return res.json(400, "put tile and description");
-            }
-            else {
-                res.json(201, todo);
-            }
-
-        });
+        TodoController.addTodo(req, res,next);
     });
+*/
 
+require('./routes.js')(app);
 app
     .get('/loggedin', function (req, res) {
         res.json(req.isAuthenticated() ? req.user : '0');
