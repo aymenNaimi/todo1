@@ -1,4 +1,4 @@
-app.run(function($rootScope,$http) {
+app.run(function($rootScope,$http,$location) {
     $rootScope.logout = function () {
         $http({
             method: 'GET',
@@ -14,5 +14,13 @@ app.run(function($rootScope,$http) {
             }
         });
     };
-    $rootScope.connected= false;
+    $http.get('/todos/loggedin')
+        .success(function (user) {
+            if (user !== '0') { //self.username=user.username;
+                $rootScope.connected = true;
+            }
+            else {
+                $rootScope.connected = false;
+            }
+        });
 });

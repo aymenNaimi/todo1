@@ -1,19 +1,26 @@
-var checkLoggedin= function ($q, $timeout, $http, $location) {
-    // Initialize a new promise
+var checkLoggedin = function ($q, $timeout, $http, $location, $rootScope) {
     var deferred = $q.defer();
-    // Make an AJAX call to check if the user is logged in
-    $http.get('/todos/loggedin').success(function (user) {
-        // Authenticated
-        if (user !== '0') { //self.username=user.username;
-            // self.iduser=user._id ;
-            deferred.resolve(user);
-        }
-        // Not Authenticated
-        else {
-            deferred.reject();
-            $location.path('/login');
-        }
-    });
-    return deferred.promise;
+    try {
+        $http.get('/todos/loggedin')
+            .success(function (user) {
+                // Authenticated
+                if (user !== '0') { //self.username=user.username;
+                    $rootScope.connected = true;
+                    deferred.resolve(user);
+                }
+                else {
+                    $rootScope.connected = false;
+                    deferred.reject();
+                    $location.path('/login');
+                }
+            }).error(function (data, status) {
+                deferred.reject();
+            });
+        return deferred.promise;
+    }
+    catch (ex) {
+        deferred.reject();
+        return deferred.promise;
+     }
 };
 
