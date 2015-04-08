@@ -1,6 +1,8 @@
 
-angular.module('myApp').controller('myCtrl', function ($scope, $http, $location, loggedin) {
+angular.module('myApp').controller('myCtrl', function ($scope, $http, $location, loggedin,logoutService) {
     var self = this;
+  //  logoutService()  ;
+   // console.log(logoutService.chaine2);
     self.mode = '';
     self.user = loggedin ;
     $('#id_alert').hide();
@@ -158,4 +160,6 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
             });
         }
     }
+
+
 });
