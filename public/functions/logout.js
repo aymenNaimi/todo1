@@ -1,6 +1,3 @@
-var app = angular.module('myApp',
-    ['ngRoute']);
-/*
 app.run(function($rootScope,$http) {
     $rootScope.logout = function () {
         $http({
@@ -19,5 +16,3 @@ app.run(function($rootScope,$http) {
     };
     $rootScope.connected= false;
 });
-*/
-

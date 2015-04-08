@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('passport');
-var Schema = require('./config/schema.js');
+require('./config/mongoose.js');
 var app = express();
 require('./config/express.js')(app);
 require('./config/passport.js')(passport);
