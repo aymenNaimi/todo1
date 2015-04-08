@@ -4,12 +4,12 @@ app.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
             when('/login', {
-                templateUrl: '/login.html',
+                templateUrl: '/login/login.html',
                 controller: 'myCtrl2',
                 controllerAs: 'mycl'
             }).
             when('/todos', {
-                templateUrl: '/todos.html',
+                templateUrl: '/todos/todos.html',
                 controller: 'myCtrl',
                 controllerAs: 'mycl',
                 resolve: { loggedin: checkLoggedin }
@@ -58,6 +58,7 @@ app.run(function($rootScope,$http) {
     };
     $rootScope.connected= false;
 });
+/*
 app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
     self.mode = '';
@@ -218,6 +219,8 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         }
     }
 });
+*/
+/*
 app.controller('myCtrl2', function ($scope, $http, $location,$rootScope) {
     var self = this;
     self.connect = function () {
@@ -234,7 +237,19 @@ app.controller('myCtrl2', function ($scope, $http, $location,$rootScope) {
     }
 
 })
+*/
+/*
+$.getScript("login/login.js", function(){
+
+    alert("users controllers  loaded .");
 
 
+});
+$.getScript("todos/todos.js", function(){
 
+    alert(" todos controller Script loaded .");
+
+
+});
+*/
 
