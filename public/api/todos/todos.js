@@ -1,5 +1,5 @@
 
-    app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
+angular.module('myApp').controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
     self.mode = '';
     self.user = loggedin ;

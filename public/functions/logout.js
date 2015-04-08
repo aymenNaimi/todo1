@@ -1,4 +1,4 @@
-app.run(function($rootScope,$http,$location) {
+angular.module('myApp').run(function($rootScope,$http,$location) {
     $rootScope.logout = function () {
         $http({
             method: 'GET',

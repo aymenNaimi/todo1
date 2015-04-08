@@ -1,4 +1,4 @@
-app.controller('myCtrl2', function ($scope, $http, $location,$rootScope) {
+angular.module('myApp').controller('myCtrl2', function ($scope, $http, $location,$rootScope) {
     var self = this;
     self.connect = function () {
         $http({
