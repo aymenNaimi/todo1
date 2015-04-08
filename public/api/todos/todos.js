@@ -1,64 +1,5 @@
-var app = angular.module('myApp',
-    ['ngRoute']);
-app.config(['$routeProvider',
-    function ($routeProvider) {
-        $routeProvider.
-            when('/login', {
-                templateUrl: '/login.html',
-                controller: 'myCtrl2',
-                controllerAs: 'mycl'
-            }).
-            when('/todos', {
-                templateUrl: '/todos.html',
-                controller: 'myCtrl',
-                controllerAs: 'mycl',
-                resolve: { loggedin: checkLoggedin }
-            }).
-            otherwise({
-                redirectTo: '/login'
-            });
-    }]);
-var checkLoggedin = function ($q, $timeout, $http, $location) {
-    // Initialize a new promise
-    var deferred = $q.defer();
-    // Make an AJAX call to check if the user is logged in
-    $http.get('/todos/loggedin').success(function (user) {
-        // Authenticated
-        if (user !== '0') { //self.username=user.username;
-            // self.iduser=user._id ;
 
-
-
-            deferred.resolve(user);
-        }
-        // Not Authenticated
-        else {
-
-            deferred.reject();
-            $location.path('/login');
-        }
-    });
-    return deferred.promise;
-};
-app.run(function($rootScope,$http) {
-    $rootScope.logout = function () {
-        $http({
-            method: 'GET',
-            url: 'http://localhost:3000/users/logout',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).success(function (data, status) {
-            if (status === 200) {
-                console.log(" logout success ");
-                self.todos = [];
-                $rootScope.connected= false;
-            }
-        });
-    };
-    $rootScope.connected= false;
-});
-app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
+angular.module('myApp').controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
     self.mode = '';
     self.user = loggedin ;
@@ -101,30 +42,30 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         });
     }
     self.delete = function (id) {
-            $http({
-                method: 'DELETE',
-                url: 'http://localhost:3000/todos/' + id,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).success(function (data, status) {
-                if (status === 200) {
-                    var jj = 0;
-                    while (self.todos[jj]) {
-                        var notdeleted = true;
-                        if (self.todos[jj]._id == id && notdeleted) {
-                            self.todos.splice(jj, 1);
-                            notdeleted = false;
-                        }
-                        jj = jj + 1;
+        $http({
+            method: 'DELETE',
+            url: 'http://localhost:3000/todos/' + id,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).success(function (data, status) {
+            if (status === 200) {
+                var jj = 0;
+                while (self.todos[jj]) {
+                    var notdeleted = true;
+                    if (self.todos[jj]._id == id && notdeleted) {
+                        self.todos.splice(jj, 1);
+                        notdeleted = false;
                     }
+                    jj = jj + 1;
                 }
-                $('#id_alert').hide();
-                self.idup="" ;
-                self.titleup="" ;
-            }).error(function (data, status) {
-                console.log("log in function delete in block error " + "status = " + status + "data =" + JSON.stringify(data));
-            });
+            }
+            $('#id_alert').hide();
+            self.idup="" ;
+            self.titleup="" ;
+        }).error(function (data, status) {
+            console.log("log in function delete in block error " + "status = " + status + "data =" + JSON.stringify(data));
+        });
     }
     self.done = function (id, p) {
         var x = !(p.done);
@@ -191,7 +132,7 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
     self.ready_delete = function(id,title) {
         self.idup=id ;
         self.titleup=title ;
-         $('#id_alert').show();
+        $('#id_alert').show();
     }
     self.hide_alert = function(){
         $('#id_alert').hide();
@@ -218,23 +159,3 @@ app.controller('myCtrl', function ($scope, $http, $location, loggedin) {
         }
     }
 });
-app.controller('myCtrl2', function ($scope, $http, $location,$rootScope) {
-    var self = this;
-    self.connect = function () {
-        $http({
-            method: 'POST',
-            url: 'http://localhost:3000/users/login',
-            headers: {
-                'Content-Type': 'application/json'
-            }, data: {username: self.username, password: self.password}
-        }).success(function (data, status) {
-            $rootScope.connected=  true;
-            $location.path('/todos');
-        });
-    }
-
-})
-
-
-
-

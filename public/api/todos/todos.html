@@ -3,7 +3,7 @@
     <button type="submit" class="btn btn-default" ng-click=" mycl.setmode('Add',''); ">Add todo</button>
     <div id="id_alert" class="row">
         <div class="col-sm-4 col-sm-offset-4">
-            <div class="alert alert-danger" role="alert">Do you whant de delet the {{mycl.titleup}} ?
+            <div class="alert alert-danger text-center" role="alert">Do you whant de delet the {{mycl.titleup}} ?
                 <br>
                 <button class="btn btn-sm btn-danger" type="submit" ng-click="mycl.delete(mycl.idup) ;">Yes</button>
                 <button class="btn btn-sm btn-success" ng-click=" mycl.hide_alert(); ">No</button>
@@ -26,7 +26,6 @@
                                 <input type="text" class="form-control " placeholder="title" name="title"
                                        ng-model="mycl.titleup" ng-minlength="4" ng-maxlength="20"
                                        ng-change=" mycl.errtitle='' " required>
-
                                 <div class=" help-block ">
                                     <span ng-show="myForm.title.$error.required"> Required!</span>
                                     <span ng-show="myForm.title.$error.minlength">  Too short!</span>
@@ -65,7 +64,15 @@
             </div>
         </div>
     </div>
-    <div ng-if="mycl.mode =='' " class="login-panel panel panel-default">
+
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+    <div ng-if="mycl.mode ==''&& ( mycl.todos =='') " class="alert alert-info text-center" role="alert">you d'ont have any todo</div>
+</div>
+        </div>
+
+
+    <div ng-if="mycl.mode ==''&& ( mycl.todos !='') " class="login-panel panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title text-center">List of todos</h3>
         </div>
