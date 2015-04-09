@@ -6,7 +6,7 @@ angular.module('myApp').controller('myCtrl3', function ($scope, $http, $location
     self.logout =function()
     {
 
-        logoutService();
+        logoutService.logout();
 
     }
 

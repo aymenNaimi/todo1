@@ -1,4 +1,6 @@
-angular.module('myApp').run(function($rootScope,$http) {
+
+angular.module('myApp').run(function($rootScope,$http,logoutService) {
+/*
     $rootScope.logout = function () {
         $http({
             method: 'GET',
@@ -14,6 +16,8 @@ angular.module('myApp').run(function($rootScope,$http) {
             }
         });
     };
+    */
+    /*
     $http.get('/todos/loggedin')
         .success(function (user) {
             if (user !== '0') { //self.username=user.username;
@@ -23,4 +27,9 @@ angular.module('myApp').run(function($rootScope,$http) {
                 $rootScope.connected = false;
             }
         });
+    */
+
+
+    logoutService.loggedin();
 });
+

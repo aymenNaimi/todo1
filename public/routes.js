@@ -1,5 +1,5 @@
 angular.module('myApp').config(['$routeProvider',
-    function ($routeProvider) {
+    function ($routeProvider ) {
         $routeProvider.
             when('/login', {
                 templateUrl: 'api/login/login.html',
@@ -10,7 +10,11 @@ angular.module('myApp').config(['$routeProvider',
                 templateUrl: 'api/todos/todos.html',
                 controller: 'myCtrl',
                 controllerAs: 'mycl',
-                resolve: { loggedin: checkLoggedin }
+                resolve: {
+                    loggedin: function (logoutService) {
+                        return logoutService.checkLoggedin();
+                    }
+                }
             }).
             otherwise({
                 redirectTo: '/login'

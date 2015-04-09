@@ -1,8 +1,7 @@
 
-angular.module('myApp').controller('myCtrl', function ($scope, $http, $location, loggedin,logoutService) {
+angular.module('myApp').controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
-  //  logoutService()  ;
-   // console.log(logoutService.chaine2);
+
     self.mode = '';
     self.user = loggedin ;
     $('#id_alert').hide();
