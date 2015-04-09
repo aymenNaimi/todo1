@@ -1,5 +1,5 @@
 
-angular.module('myApp').run(function($rootScope,$http,logoutService) {
-    logoutService.loggedin();
+angular.module('myApp').run(function($rootScope,$http,authService) {
+    authService.loggedin();
 });
 

@@ -11,8 +11,8 @@ angular.module('myApp').config(['$routeProvider',
                 controller: 'myCtrl',
                 controllerAs: 'mycl',
                 resolve: {
-                    loggedin: function (logoutService) {
-                        return logoutService.checkLoggedin();
+                    loggedin: function (authService) {
+                        return authService.checkLoggedin();
                     }
                 }
             }).

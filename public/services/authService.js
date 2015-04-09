@@ -58,7 +58,7 @@ angular.module('myApp').factory('logoutService', [
 /*
 
  */
-angular.module('myApp').factory('logoutService',   function($http,$location,$rootScope,$q) {
+angular.module('myApp').factory('authService',   function($http,$location,$rootScope,$q) {
 
 
 
