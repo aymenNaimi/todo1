@@ -1,7 +1,6 @@
 <div>
     <h2 class="text-center"><span class="label label-info">  welcome {{mycl.user.username}} </span></h2><br>
     <button type="submit" class="btn btn-default" ng-click=" mycl.setmode('Add',''); ">Add todo</button>
-
     <div id="id_alert" class="row">
         <div class="col-sm-4 col-sm-offset-4">
             <div class="alert alert-danger text-center" role="alert">Do you whant de delet the {{mycl.titleup}} ?
@@ -27,6 +26,7 @@
                                 <input type="text" class="form-control " placeholder="title" name="title"
                                        ng-model="mycl.titleup" ng-minlength="4" ng-maxlength="20"
                                        ng-change=" mycl.errtitle='' " required>
+
                                 <div class=" help-block ">
                                     <span ng-show="myForm.title.$error.required"> Required!</span>
                                     <span ng-show="myForm.title.$error.minlength">  Too short!</span>
@@ -68,9 +68,11 @@
 
     <div class="row">
         <div class="col-sm-4 col-sm-offset-4">
-    <div ng-if="mycl.mode ==''&& ( mycl.todos =='') " class="alert alert-info text-center" role="alert">you d'ont have any todo</div>
-</div>
+            <div ng-if="mycl.mode ==''&& ( mycl.todos =='') " class="alert alert-info text-center" role="alert">you
+                d'ont have any todo
+            </div>
         </div>
+    </div>
 
 
     <div ng-if="mycl.mode ==''&& ( mycl.todos !='') " class="login-panel panel panel-default">

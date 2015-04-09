@@ -1,5 +1,3 @@
-
-angular.module('myApp').run(function($rootScope,$http,authService) {
+angular.module('myApp').run(function ($rootScope, $http, authService) {
     authService.loggedin();
 });
-

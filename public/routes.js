@@ -1,5 +1,5 @@
 angular.module('myApp').config(['$routeProvider',
-    function ($routeProvider ) {
+    function ($routeProvider) {
         $routeProvider.
             when('/login', {
                 templateUrl: 'api/login/login.html',

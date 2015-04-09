@@ -27,21 +27,20 @@
 <script src="/lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="/app.js"></script>
-
 <script type="text/javascript" src="services/authService.js"></script>
 <script type="text/javascript" src="/navbar/navbar.js"></script>
 <script type="text/javascript" src="/run.js"></script>
-
-
 <script type="text/javascript" src="/routes.js"></script>
 <script type="text/javascript" src="/api/todos/todos.js"></script>
 <script type="text/javascript" src="/api/login/login.js"></script>
 
-<div  ng-controller="myCtrl3 as mycl3  " class="navbar navbar-default navbar-static-top">
-    <div  class="container-fluid">
-        <p class="navbar-text navbar-left"><a  href="#/todos">Home</a></p>
-        <p class="navbar-text navbar-left"><a  ng-if=" !(connected) " href="#/login">login</a></p>
-        <p class="navbar-text navbar-left"><a ng-click="mycl3.logout();"  ng-if=" (connected) ">logout</a></p>
+<div ng-controller="myCtrl3 as mycl3  " class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <p class="navbar-text navbar-left"><a href="#/todos">Home</a></p>
+
+        <p class="navbar-text navbar-left"><a ng-if=" !(connected) " href="#/login">login</a></p>
+
+        <p class="navbar-text navbar-left"><a ng-click="mycl3.logout();" ng-if=" (connected) ">logout</a></p>
     </div>
 </div>
 <div class="container-fluid" ng-view=""></div>

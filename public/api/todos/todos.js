@@ -1,11 +1,8 @@
-
 angular.module('myApp').controller('myCtrl', function ($scope, $http, $location, loggedin) {
     var self = this;
-
     self.mode = '';
-    self.user = loggedin ;
+    self.user = loggedin;
     $('#id_alert').hide();
-    self.firstName = "John";
     $http({
         method: 'GET',
         url: 'http://localhost:3000/todos',
@@ -35,7 +32,6 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
                 if (data.errors.title) {
                     self.errtitle = data.errors.title.message;
                 }
-                //        alert(((data.errors.title)? (data.errors.title.message): '')+' , '+((data.errors.description)? (data.errors.description.message): ''));
             }
             else {
                 alert('error in server');
@@ -62,8 +58,8 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
                 }
             }
             $('#id_alert').hide();
-            self.idup="" ;
-            self.titleup="" ;
+            self.idup = "";
+            self.titleup = "";
         }).error(function (data, status) {
             console.log("log in function delete in block error " + "status = " + status + "data =" + JSON.stringify(data));
         });
@@ -130,15 +126,15 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
         });
 
     };
-    self.ready_delete = function(id,title) {
-        self.idup=id ;
-        self.titleup=title ;
+    self.ready_delete = function (id, title) {
+        self.idup = id;
+        self.titleup = title;
         $('#id_alert').show();
     }
-    self.hide_alert = function(){
+    self.hide_alert = function () {
         $('#id_alert').hide();
-        self.idup="" ;
-        self.titleup=" ;"
+        self.idup = "";
+        self.titleup = " ;"
     }
     self.setmode = function (mode, p) {
         self.clear();
@@ -159,6 +155,4 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
             });
         }
     }
-
-
 });
