@@ -10,7 +10,11 @@ angular.module('myApp').config(['$routeProvider',
                 templateUrl: 'api/todos/todos.html',
                 controller: 'myCtrl',
                 controllerAs: 'mycl',
-                resolve: { loggedin: checkLoggedin }
+                resolve: {
+                    loggedin: function (authService) {
+                        return authService.checkLoggedin();
+                    }
+                }
             }).
             otherwise({
                 redirectTo: '/login'
