@@ -31,15 +31,8 @@ describe('login:', function() {
                 .expect('Content-Type', /json/)
                 .expect(200)
                .end(function(err, res) {
-                //    res.body.should.be.an.Array.and.have.lengthOf(1);
-                //    res.body[0].should.have.property('title', todo.title);
-                 //   res.body[0].should.have.property('description', todo.description);
-                 //   console.log( "this is res = " +res);
-                //    console.log( "this is err = "+err);
                     done(err);
-               }  );
-
-
+               });
         });
         it(" user should don't be able to connect  ", function(done){
             request(app).post('/users/login/')
@@ -48,15 +41,8 @@ describe('login:', function() {
                 .expect('Content-Type', /json/)
                 .expect(401)
                 .end(function(err, res) {
-                    //    res.body.should.be.an.Array.and.have.lengthOf(1);
-                    //    res.body[0].should.have.property('title', todo.title);
-                    //   res.body[0].should.have.property('description', todo.description);
-                    console.log( "this is res = " +res);
-                    console.log( "this is err = "+err);
                     done(err);
-                }  );
-
-
+                });
         });
     });
 
