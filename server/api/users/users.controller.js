@@ -6,11 +6,11 @@ exports.login = function (req, res, next) {
         if (err)
             return next(err);
         if (!user)
-            return res.sendStatus(401);
+            return res.json(401,"");
         req.logIn(user, function (err) {
             if (err)
                 return next(err);
-            return res.send();
+            return res.json();
         });
     })(req, res, next);
 }
