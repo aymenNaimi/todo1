@@ -43,17 +43,12 @@ describe('todos', function () {
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .end(function (err, res) {
-                    console.log('**********');
-                    console.log(res.body);
                     res.body.should.be.an.Array.and.have.lengthOf(1);
                     res.body[0].should.have.property('title', todo.title);
                     res.body[0].should.have.property('description', todo.description);
                     res.body[0].should.have.property('done', todo.done);
-                    console.log("todo id +++++++++++++++++++" + todo._id);
-                    var id = todo._id;
-                    console.log("id  +++++++++++++++++++" + id);
-                    //  res.body[0].should.have.property('_id',id);
-                    //   res.body[0].should.have.property('user_id',todo.user_id);
+                      res.body[0].should.have.property('_id');
+                       res.body[0].should.have.property('user_id');
                     done(err);
                 });
         });
@@ -63,13 +58,11 @@ describe('todos', function () {
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .end(function (err, res) {
-                    console.log('**********');
-                    console.log(res.body);
                     res.body.should.have.property('title', todo.title);
                     res.body.should.have.property('description', todo.description);
                     res.body.should.have.property('done', todo.done);
-                    //   res.body.should.have.property('_id',todo._id);
-                    //    res.body.should.have.property('user_id',todo.user_id);
+                       res.body.should.have.property('_id');
+                        res.body.should.have.property('user_id');
                     done(err);
                 });
         });

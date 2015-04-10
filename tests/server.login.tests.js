@@ -6,7 +6,7 @@ var app = require('../server/app.js'),
     Todo = mongoose.model('Todo');
 var user, todo;
 describe('login controller test', function () {
-    beforeEach(function (done) {
+    before(function (done) {
         user = new User({
             username: 'usert',
             password: 'passt',
@@ -45,7 +45,7 @@ describe('login controller test', function () {
                 });
         });
     });
-    afterEach(function (done) {
+    after(function (done) {
         Todo.remove(function () {
             User.remove(function () {
                 done();
