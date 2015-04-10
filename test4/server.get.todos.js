@@ -8,6 +8,7 @@ var user, todo;
 var agent = request.agent(app);
 describe('todos', function () {
     before(function (done) {
+
         user = new User({
             username: 'usertest',
             password: 'passtest',
@@ -18,7 +19,7 @@ describe('todos', function () {
         user.save(function (err, data) {
             todo = new Todo({
                 title: 'Todot ',
-                description: 'Todot',
+                description: 'Todottt',
                 done: false,
                 user_id: user._id
             });
@@ -66,6 +67,50 @@ describe('todos', function () {
                     done(err);
                 });
         });
+
+
+
+        it(" add new todo   ", function (done) {
+            var addTitle = 'title225' ;
+            var addDescription = 'desc2255' ;
+            agent.post('/todos/')
+                .set('Accept', 'application/json')
+                .send({"title": addTitle, "description": addDescription })
+                .expect('Content-Type', /json/)
+                .expect(201)
+                .end(function (err, res) {
+                    res.body.should.have.property('title', addTitle);
+                    res.body.should.have.property('description', addDescription);
+                    res.body.should.have.property('done', false);
+                    res.body.should.have.property('_id');
+                    res.body.should.have.property('user_id');
+                    done(err);
+                });
+        });
+        it(" delete todo   ", function (done) {
+
+            agent.delete('/todos/'+todo._id)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    res.body.should.have.property('title', todo.title);
+                    res.body.should.have.property('description', todo.description);
+                    res.body.should.have.property('done', todo.done);
+                    res.body.should.have.property('_id');
+                    res.body.should.have.property('user_id');
+                    console.log(res.body._id);
+                    done(err);
+                });
+        });
+
+
+
+
+
+
+
+
     });
     after(function (done) {
         Todo.remove(function () {
