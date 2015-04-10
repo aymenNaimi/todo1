@@ -5,7 +5,7 @@ var app = require('../server/app.js'),
     User = mongoose.model('User'),
     Todo = mongoose.model('Todo');
 var user, todo;
-describe('login controller test', function () {
+describe('todos', function () {
     beforeEach(function (done) {
         user = new User({
             username: 'usert',
@@ -23,27 +23,18 @@ describe('login controller test', function () {
             done();
         });
     });
-    describe('login controller test ', function () {
-        it(' user should be connected  ', function (done) {
-            request(app).post('/users/login/')
+    describe('todos ,get ', function () {
+        it(" should be don't able de get todos  ", function (done) {
+            request(app).get('/todos/')
                 .set('Accept', 'application/json')
-                .send({"username": "usert", "password": "passt" })
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end(function (err, res) {
-                    done(err);
-                });
-        });
-        it(" user should don't be able to connect  ", function (done) {
-            request(app).post('/users/login/')
-                .set('Accept', 'application/json')
-                .send({                  "username": "usert", "password": "passttt"               })
                 .expect('Content-Type', /json/)
                 .expect(401)
                 .end(function (err, res) {
                     done(err);
                 });
         });
+
+
     });
     afterEach(function (done) {
         Todo.remove(function () {

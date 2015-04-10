@@ -89,7 +89,7 @@ exports.deleteTodo = function (req, res, next) {
 }
 exports.isloggedin = function (req, res, next) {
     if (!req.user)
-        return res.send(401);
+        return res.json(401,"");
     else
         next();
 }
