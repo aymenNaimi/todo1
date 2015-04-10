@@ -93,18 +93,36 @@ describe('todos', function () {
                     done(err);
                 });
         });
+        it(" test update todo ", function (done) {
+            var   updateTitle = 'allmas';
+            var    updateDescription = '45937';
+            agent.put('/todos/' +todo._id)
+                .set('Accept', 'application/json')
+                .send({"title": updateTitle, "description": updateDescription })
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    res.body.should.have.property('title', updateTitle);
+                    res.body.should.have.property('description', updateDescription);
+                    res.body.should.have.property('done', todo.done);
+                    res.body.should.have.property('_id');
+                    res.body.should.have.property('user_id');
+                    done(err);
+                });
+        });
         it(" test delete todo   ", function (done) {
+            var   updateTitle = 'allmas';
+            var    updateDescription = '45937';
             agent.delete('/todos/' + todo._id)
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .end(function (err, res) {
-                    res.body.should.have.property('title', todo.title);
-                    res.body.should.have.property('description', todo.description);
+                    res.body.should.have.property('title', updateTitle);
+                    res.body.should.have.property('description', updateDescription);
                     res.body.should.have.property('done', todo.done);
                     res.body.should.have.property('_id');
                     res.body.should.have.property('user_id');
-                    console.log(res.body._id);
                     done(err);
                 });
         });
