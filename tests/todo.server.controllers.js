@@ -34,7 +34,6 @@ describe('todos', function () {
                 });
         });
 
-
     });
     afterEach(function (done) {
         Todo.remove(function () {
