@@ -8,7 +8,6 @@ var user, todo;
 var agent = request.agent(app);
 describe('todos', function () {
     before(function (done) {
-
         user = new User({
             username: 'usertest',
             password: 'passtest',
@@ -48,8 +47,8 @@ describe('todos', function () {
                     res.body[0].should.have.property('title', todo.title);
                     res.body[0].should.have.property('description', todo.description);
                     res.body[0].should.have.property('done', todo.done);
-                      res.body[0].should.have.property('_id');
-                       res.body[0].should.have.property('user_id');
+                    res.body[0].should.have.property('_id');
+                    res.body[0].should.have.property('user_id');
                     done(err);
                 });
         });
@@ -62,17 +61,14 @@ describe('todos', function () {
                     res.body.should.have.property('title', todo.title);
                     res.body.should.have.property('description', todo.description);
                     res.body.should.have.property('done', todo.done);
-                       res.body.should.have.property('_id');
-                        res.body.should.have.property('user_id');
+                    res.body.should.have.property('_id');
+                    res.body.should.have.property('user_id');
                     done(err);
                 });
         });
-
-
-
-        it(" add new todo   ", function (done) {
-            var addTitle = 'title225' ;
-            var addDescription = 'desc2255' ;
+        it(" test add new todo   ", function (done) {
+            var addTitle = 'title225';
+            var addDescription = 'desc2255';
             agent.post('/todos/')
                 .set('Accept', 'application/json')
                 .send({"title": addTitle, "description": addDescription })
@@ -87,9 +83,18 @@ describe('todos', function () {
                     done(err);
                 });
         });
-        it(" delete todo   ", function (done) {
-
-            agent.delete('/todos/'+todo._id)
+        it(" test that the number of todo incremented by 1 after adding todo   ", function (done) {
+            agent.get('/todos/' )
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    res.body.should.be.an.Array.and.have.lengthOf(2);
+                    done(err);
+                });
+        });
+        it(" test delete todo   ", function (done) {
+            agent.delete('/todos/' + todo._id)
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(200)
@@ -103,14 +108,16 @@ describe('todos', function () {
                     done(err);
                 });
         });
-
-
-
-
-
-
-
-
+        it(" test that the number of todo decremented by 1 after deleting a todo  ", function (done) {
+            agent.get('/todos/')
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    res.body.should.be.an.Array.and.have.lengthOf(1);
+                    done(err);
+                });
+        });
     });
     after(function (done) {
         Todo.remove(function () {
@@ -119,6 +126,4 @@ describe('todos', function () {
             });
         });
     });
-
 });
-
