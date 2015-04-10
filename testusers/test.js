@@ -28,7 +28,6 @@ describe('todos', function () {
         });
     });
     describe('users test  ', function () {
-
         it(" should don't be able get todos  ", function (done) {
             agent.get('/todos/')
                 .set('Accept', 'application/json')
@@ -37,7 +36,6 @@ describe('todos', function () {
                     done(err);
                 });
         });
-
         it(" should don't be able to login  ", function (done) {
             agent.post('/users/login/')
                 .set('Accept', 'application/json')
@@ -47,17 +45,15 @@ describe('todos', function () {
                     done(err);
                 });
         });
-
         it(" should  be able to login  ", function (done) {
             agent.post('/users/login/')
                 .set('Accept', 'application/json')
                 .send({"username": user.username, "password": user.password })
                 .expect(200)
                 .end(function (err, res) {
-              done(err);
+                    done(err);
                 });
         });
-
         it(" should be able to get todos  ", function (done) {
             agent.get('/todos/')
                 .set('Accept', 'application/json')
@@ -72,7 +68,6 @@ describe('todos', function () {
                     done(err);
                 });
         });
-
         it(" should be connected  ", function (done) {
             agent.get('/todos/loggedin/')
                 .set('Accept', 'application/json')
@@ -81,12 +76,11 @@ describe('todos', function () {
                     res.body.should.have.property('username', user.username);
                     res.body.should.have.property('password', user.password);
                     res.body.should.have.property('first_name', user.first_name);
-                    res.body.should.have.property('last_name',user.last_name);
-                    res.body.should.have.property('email',user.email);
+                    res.body.should.have.property('last_name', user.last_name);
+                    res.body.should.have.property('email', user.email);
                     done(err);
                 });
         });
-
         it(" should be able to logout  ", function (done) {
             agent.get('/users/logout/')
                 .set('Accept', 'application/json')
@@ -95,7 +89,6 @@ describe('todos', function () {
                     done(err);
                 });
         });
-
         it(" should not connected  ", function (done) {
             agent.get('/todos/loggedin/')
                 .set('Accept', 'application/json')
@@ -104,9 +97,7 @@ describe('todos', function () {
                     res.body.should.be.exactly('0');
                     done(err);
                 });
-
         });
-
         it(" should not able get todos   ", function (done) {
             agent.get('/todos/')
                 .set('Accept', 'application/json')
@@ -114,15 +105,13 @@ describe('todos', function () {
                 .end(function (err, res) {
                     done(err);
                 });
-
         });
-
     });
-        after(function (done) {
-            Todo.remove(function () {
-                User.remove(function () {
-                    done();
-                });
+    after(function (done) {
+        Todo.remove(function () {
+            User.remove(function () {
+                done();
             });
         });
     });
+});
