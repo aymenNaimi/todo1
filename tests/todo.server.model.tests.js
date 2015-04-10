@@ -28,13 +28,39 @@ describe('Todo Model Unit Tests:', function () {
                 should.not.exist(err);
             });
         });
-        it('Should not be able to save an todo without a title',
-            function () {
-                todo.title = '';
+        it('Should not be able to save an todo without a description',function () {
+            todo.description = '';
+            todo.save(function (err) {
+                should.exist(err);
+            });
+        });
+        it('Should not be able to save an todo reserved description',function () {
+            todo.description = 'description';
+            todo.save(function (err) {
+                should.exist(err);
+            });
+        });
+
+        it('Should not be able to save an todo without a title',function () {
+            todo.description= 'abcd' ;
+            todo.title = '';
                 todo.save(function (err) {
                     should.exist(err);
                 });
             });
+
+        it('Should not be able to save an todo with short title',function () {
+            todo.title = 'afr';
+            todo.save(function (err) {
+                should.exist(err);
+            });
+        });
+        it('Should not be able to save an todo with reserved title',function () {
+            todo.title = 'title';
+            todo.save(function (err) {
+                should.exist(err);
+            });
+        });
     });
     afterEach(function (done) {
         Todo.remove(function () {
