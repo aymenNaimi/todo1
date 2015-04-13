@@ -7,6 +7,7 @@ var app = require('../server/app.js'),
 var user, todo;
 var agent = request.agent(app);
 var agentnc = request.agent(app);
+var anonymous = request.agent(app);
 describe('todos', function () {
     beforeEach(function (done) {
         user = new User({
@@ -16,6 +17,15 @@ describe('todos', function () {
             last_name: 'last Name test',
             email: 'email@est.com'
         });
+        anonymous_user = new User({
+            username: 'userano',
+            password: 'passano',
+            first_name: 'first Name ano',
+            last_name: 'last Name ano',
+            email: 'emailano@est.com'
+        });
+        anonymous_user.save();
+
         user.save(function (err, data) {
             todo = new Todo({
                 title: 'Todot ',
@@ -34,7 +44,7 @@ describe('todos', function () {
             });
         });
     });
-    describe('todos controllers ', function () {
+    describe(' testing the todos controllers ', function () {
         it(" should don't be able get todos  ", function (done) {
             agentnc.get('/todos/')
                 .set('Accept', 'application/json')
@@ -126,7 +136,6 @@ describe('todos', function () {
                     res.body.should.have.property('done', todo.done);
                     res.body.should.have.property('_id');
                     res.body.should.have.property('user_id');
-
                     agent.get('/todos/')
                         .set('Accept', 'application/json')
                         .expect('Content-Type', /json/)
@@ -136,6 +145,22 @@ describe('todos', function () {
                             done(err);
                         });
                 });
+        });
+        it(" should be d'ont   able de get todo by id  of other users  ", function (done) {
+                anonymous.post('/users/login/')
+                .set('Accept', 'application/json')
+                .send({"username": anonymous_user.username, "password": anonymous_user.password })
+                .expect(200)
+                .end(function (err, res) {
+                        anonymous.get('/todos/' + todo._id)
+                            .set('Accept', 'application/json')
+                            .expect('Content-Type', /json/)
+                            .expect(404)
+                            .end(function (err, res) {
+                                done(err);
+                            });
+                });
+
         });
     });
     afterEach(function (done) {

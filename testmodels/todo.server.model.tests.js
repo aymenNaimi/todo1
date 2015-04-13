@@ -22,7 +22,7 @@ describe('Todo Model Unit Tests:', function () {
             done();
         });
     });
-    describe('Testing the save method', function () {
+    describe('Testing the todo models', function () {
         it('Should be able to save without problems', function () {
             todo.save(function (err) {
                 should.not.exist(err);

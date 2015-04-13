@@ -27,7 +27,7 @@ describe('todos', function () {
             });
         });
     });
-    describe('users test  ', function () {
+    describe('testing the users controllers ', function () {
         it(" should don't be able to login  ", function (done) {
             agent.post('/users/login/')
                 .set('Accept', 'application/json')
@@ -73,14 +73,6 @@ describe('todos', function () {
                 .expect(200)
                 .end(function (err, res) {
                     res.body.should.be.exactly('0');
-                    done(err);
-                });
-        });
-        it(" should not able get todos   ", function (done) {
-            agent.get('/todos/')
-                .set('Accept', 'application/json')
-                .expect(401)
-                .end(function (err, res) {
                     done(err);
                 });
         });
