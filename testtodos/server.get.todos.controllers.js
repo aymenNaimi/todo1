@@ -84,7 +84,7 @@ describe('todos', function () {
                 });
         });
         it(" test that the number of todo incremented by 1 after adding todo   ", function (done) {
-            agent.get('/todos/' )
+            agent.get('/todos/')
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(200)
@@ -94,9 +94,9 @@ describe('todos', function () {
                 });
         });
         it(" test update todo ", function (done) {
-            var   updateTitle = 'allmas';
-            var    updateDescription = '45937';
-            agent.put('/todos/' +todo._id)
+            var updateTitle = 'allmas';
+            var updateDescription = '45937';
+            agent.put('/todos/' + todo._id)
                 .set('Accept', 'application/json')
                 .send({"title": updateTitle, "description": updateDescription })
                 .expect('Content-Type', /json/)
@@ -111,8 +111,8 @@ describe('todos', function () {
                 });
         });
         it(" test delete todo   ", function (done) {
-            var   updateTitle = 'allmas';
-            var    updateDescription = '45937';
+            var updateTitle = 'allmas';
+            var updateDescription = '45937';
             agent.delete('/todos/' + todo._id)
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
