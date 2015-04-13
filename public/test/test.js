@@ -1,9 +1,9 @@
-describe('Testing MEAN Main Module', function() {
+describe('Testing myAppMain Module', function () {
     var mainModule;
-    beforeEach(function() {
+    beforeEach(function () {
         mainModule = angular.module('myApp');
     });
-    it('Should be registered', function() {
+    it('Should be registered', function () {
         expect(mainModule).toBeDefined();
     });
 });
