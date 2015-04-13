@@ -28,14 +28,6 @@ describe('todos', function () {
         });
     });
     describe('users test  ', function () {
-        it(" should don't be able get todos  ", function (done) {
-            agent.get('/todos/')
-                .set('Accept', 'application/json')
-                .expect(401)
-                .end(function (err, res) {
-                    done(err);
-                });
-        });
         it(" should don't be able to login  ", function (done) {
             agent.post('/users/login/')
                 .set('Accept', 'application/json')
@@ -51,20 +43,6 @@ describe('todos', function () {
                 .send({"username": user.username, "password": user.password })
                 .expect(200)
                 .end(function (err, res) {
-                    done(err);
-                });
-        });
-        it(" should be able to get todos  ", function (done) {
-            agent.get('/todos/')
-                .set('Accept', 'application/json')
-                .expect(200)
-                .end(function (err, res) {
-                    res.body.should.be.an.Array.and.have.lengthOf(1);
-                    res.body[0].should.have.property('title', todo.title);
-                    res.body[0].should.have.property('description', todo.description);
-                    res.body[0].should.have.property('done', todo.done);
-                    res.body[0].should.have.property('_id');
-                    res.body[0].should.have.property('user_id');
                     done(err);
                 });
         });

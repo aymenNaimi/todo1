@@ -6,8 +6,9 @@ var app = require('../server/app.js'),
     Todo = mongoose.model('Todo');
 var user, todo;
 var agent = request.agent(app);
+var agentnc = request.agent(app);
 describe('todos', function () {
-    before(function (done) {
+    beforeEach(function (done) {
         user = new User({
             username: 'usertest',
             password: 'passtest',
@@ -23,16 +24,21 @@ describe('todos', function () {
                 user_id: user._id
             });
             todo.save(function () {
-                done();
+                agent.post('/users/login/')
+                    .set('Accept', 'application/json')
+                    .send({"username": user.username, "password": user.password })
+                    .expect(200)
+                    .end(function (err, res) {
+                        done(err);
+                    });
             });
         });
     });
-    describe('todos ,get ', function () {
-        it(" should be able to login  ", function (done) {
-            agent.post('/users/login/')
+    describe('todos controllers ', function () {
+        it(" should don't be able get todos  ", function (done) {
+            agentnc.get('/todos/')
                 .set('Accept', 'application/json')
-                .send({"username": user.username, "password": user.password })
-                .expect(200)
+                .expect(401)
                 .end(function (err, res) {
                     done(err);
                 });
@@ -52,6 +58,7 @@ describe('todos', function () {
                     done(err);
                 });
         });
+
         it(" should be  able de get todo by id  ", function (done) {
             agent.get('/todos/' + todo._id)
                 .set('Accept', 'application/json')
@@ -80,17 +87,15 @@ describe('todos', function () {
                     res.body.should.have.property('done', false);
                     res.body.should.have.property('_id');
                     res.body.should.have.property('user_id');
-                    done(err);
-                });
-        });
-        it(" test that the number of todo incremented by 1 after adding todo   ", function (done) {
-            agent.get('/todos/')
-                .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end(function (err, res) {
-                    res.body.should.be.an.Array.and.have.lengthOf(2);
-                    done(err);
+
+                    agent.get('/todos/')
+                        .set('Accept', 'application/json')
+                        .expect('Content-Type', /json/)
+                        .expect(200)
+                        .end(function (err, res) {
+                            res.body.should.be.an.Array.and.have.lengthOf(2);
+                            done(err);
+                        });
                 });
         });
         it(" test update todo ", function (done) {
@@ -111,33 +116,29 @@ describe('todos', function () {
                 });
         });
         it(" test delete todo   ", function (done) {
-            var updateTitle = 'allmas';
-            var updateDescription = '45937';
             agent.delete('/todos/' + todo._id)
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(200)
                 .end(function (err, res) {
-                    res.body.should.have.property('title', updateTitle);
-                    res.body.should.have.property('description', updateDescription);
+                    res.body.should.have.property('title', todo.title);
+                    res.body.should.have.property('description', todo.description);
                     res.body.should.have.property('done', todo.done);
                     res.body.should.have.property('_id');
                     res.body.should.have.property('user_id');
-                    done(err);
-                });
-        });
-        it(" test that the number of todo decremented by 1 after deleting a todo  ", function (done) {
-            agent.get('/todos/')
-                .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end(function (err, res) {
-                    res.body.should.be.an.Array.and.have.lengthOf(1);
-                    done(err);
+
+                    agent.get('/todos/')
+                        .set('Accept', 'application/json')
+                        .expect('Content-Type', /json/)
+                        .expect(200)
+                        .end(function (err, res) {
+                            res.body.should.be.an.Array.and.have.lengthOf(0);
+                            done(err);
+                        });
                 });
         });
     });
-    after(function (done) {
+    afterEach(function (done) {
         Todo.remove(function () {
             User.remove(function () {
                 done();
