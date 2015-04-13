@@ -1,4 +1,4 @@
-var app = require('../server/app.js');
+var app = require('../../app.js');
 var should = require('should');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');

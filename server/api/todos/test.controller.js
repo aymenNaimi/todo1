@@ -1,4 +1,4 @@
-var app = require('../server/app.js'),
+var app = require('../../app.js'),
     request = require('supertest'),
     should = require('should'),
     mongoose = require('mongoose'),
