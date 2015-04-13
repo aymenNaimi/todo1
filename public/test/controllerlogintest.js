@@ -1,3 +1,4 @@
+
 describe('Testing Articles Controller', function () {
     var _scope, ArticlesController;
     beforeEach(function () {
@@ -12,7 +13,7 @@ describe('Testing Articles Controller', function () {
     it('Should be registered', function () {
         expect(ArticlesController).toBeDefined();
     });
-    it('Should connect methods', function () {
+    it('Should include connect methods', function () {
         expect(ArticlesController.connect).toBeDefined();
     });
 });
