@@ -20,9 +20,9 @@ describe('PasswordController', function () {
             return $controller('myCtrl', {'$scope': $rootScope, loggedin: {username: 'aymen', password: 'allmas', _id: '5527d02e1d0a2ee9d14f5307' } });
         };
     }));
-    describe('get todo test', function () {
+    describe(' todo test', function () {
         it('get todo test', function () {
-            var todo = {title: 'alooo', description: 'helo', done: false};
+            var todo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [todo];
             $httpBackend.expectGET('/todos/loggedin').respond(200);
             $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
@@ -30,6 +30,20 @@ describe('PasswordController', function () {
             $httpBackend.flush();
             expect(controller.todos).toEqualData(todos);
         });
+    });
+    it('add todo test', function () {
+        var addedtodo = {title: 'todo11', description: 'desc11', done: false};
+        var todos = [];
+        var added = [addedtodo];
+        $httpBackend.expectGET('/todos/loggedin').respond(200);
+        $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
+        $httpBackend.expectPOST('http://localhost:3000/todos/', {title: 'todo11', description: 'desc11'}).respond(200, addedtodo);
+        var controller = createController();
+        controller.titleup = 'todo11';
+        controller.descriptionup = 'desc11';
+        controller.add();
+        $httpBackend.flush();
+        expect(controller.todos).toEqualData(added);
     });
 });
 
