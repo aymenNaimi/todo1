@@ -1,3 +1,4 @@
+/*
 describe('PasswordController', function() {
     beforeEach(module('myApp'));
     var $controller ,result,$httpBackend,$rootScope, createController;
@@ -25,3 +26,4 @@ describe('PasswordController', function() {
     });
 });
 
+*/

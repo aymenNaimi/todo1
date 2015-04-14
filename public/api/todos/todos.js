@@ -4,7 +4,7 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
     self.user = loggedin;
     $http({
         method: 'GET',
-        url: 'http://localhost:3000/todos',
+        url: 'http://localhost:3000/todos/',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -16,7 +16,7 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
     self.add = function () {
         return $http({
             method: 'POST',
-            url: 'http://localhost:3000/todos',
+            url: 'http://localhost:3000/todos/',
             headers: {
                 'Content-Type': 'application/json'
             }, data: {title: self.titleup, description: self.descriptionup}

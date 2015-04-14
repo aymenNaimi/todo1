@@ -12,5 +12,4 @@ angular.module('myApp').controller('myCtrl2', function ($scope, $http, $location
             $location.path('/todos');
         });
     }
-
 });
