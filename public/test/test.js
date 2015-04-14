@@ -1,3 +1,4 @@
+/*
 describe('Testing myAppMain Module', function () {
     var mainModule;
     beforeEach(function () {
@@ -7,3 +8,4 @@ describe('Testing myAppMain Module', function () {
         expect(mainModule).toBeDefined();
     });
 });
+*/

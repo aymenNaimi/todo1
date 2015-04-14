@@ -1,4 +1,5 @@
 
+/*
 describe('Testing Articles Controller', function () {
     var _scope, ArticlesController;
     beforeEach(function () {
@@ -17,3 +18,4 @@ describe('Testing Articles Controller', function () {
         expect(ArticlesController.connect).toBeDefined();
     });
 });
+*/
