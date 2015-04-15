@@ -4,7 +4,7 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
     self.user = loggedin;
     $http({
         method: 'GET',
-        url: 'http://localhost:3000/todos',
+        url: 'http://localhost:3000/todos/',
         headers: {
             'Content-Type': 'application/json'
         }
@@ -16,7 +16,7 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
     self.add = function () {
         return $http({
             method: 'POST',
-            url: 'http://localhost:3000/todos',
+            url: 'http://localhost:3000/todos/',
             headers: {
                 'Content-Type': 'application/json'
             }, data: {title: self.titleup, description: self.descriptionup}
@@ -37,9 +37,10 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
             }
         });
     }
-    self.delete = function (id) {
-       if (confirm('do you want to delete this todo'))
-        {
+
+
+    self.delete2= function(id){
+
         $http({
             method: 'DELETE',
             url: 'http://localhost:3000/todos/' + id,
@@ -61,6 +62,12 @@ angular.module('myApp').controller('myCtrl', function ($scope, $http, $location,
         }).error(function (data, status) {
             console.log("log in function delete in block error " + "status = " + status + "data =" + JSON.stringify(data));
         });
+
+    }
+    self.delete = function (id) {
+       if (confirm('do you want to delete this todo'))
+        {
+     self.delete2(id);
         }
     }
     self.done = function (id, p) {
