@@ -1,5 +1,5 @@
-/*
-describe('Testing myAppMain Module', function () {
+
+describe('Testing myApp Main Module', function () {
     var mainModule;
     beforeEach(function () {
         mainModule = angular.module('myApp');
@@ -8,4 +8,4 @@ describe('Testing myAppMain Module', function () {
         expect(mainModule).toBeDefined();
     });
 });
-*/
+

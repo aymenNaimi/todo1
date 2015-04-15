@@ -1,5 +1,5 @@
-/*
-describe('PasswordController', function () {
+
+describe('todos Controller', function () {
     beforeEach(module('myApp'));
     var $controller , $httpBackend, $rootScope, createController;
     beforeEach(inject(function ($injector) {
@@ -219,4 +219,3 @@ describe('PasswordController', function () {
     });
 });
 
-*/

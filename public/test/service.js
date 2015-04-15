@@ -1,4 +1,4 @@
-/*
+
 describe('Testing authService Service', function () {
     var _auth;
     beforeEach(function () {
@@ -81,5 +81,5 @@ describe('Testing authService Service', function () {
     });
 });
 
-*/
+
 

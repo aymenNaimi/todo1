@@ -1,6 +1,6 @@
 
-/*
-describe('Testing Articles Controller', function () {
+
+describe('Testing login Controller to be defined', function () {
     var _scope, ArticlesController;
     beforeEach(function () {
         module('myApp');
@@ -18,4 +18,3 @@ describe('Testing Articles Controller', function () {
         expect(ArticlesController.connect).toBeDefined();
     });
 });
-*/

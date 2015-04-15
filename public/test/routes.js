@@ -1,5 +1,5 @@
-/*
-describe('Testing login Routing', function () {
+
+describe('Testing Routes', function () {
     beforeEach(module('myApp'));
     it('Should map a "list" route', function () {
         inject(function ($route) {
@@ -10,4 +10,3 @@ describe('Testing login Routing', function () {
         });
     });
 });
-    */
