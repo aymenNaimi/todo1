@@ -9,13 +9,13 @@ angular.module('myApp').factory('authService', function ($http, $location, $root
                 }
             }).success(function (data, status) {
                 if (status === 200) {
+                    $rootScope.connected = false;
+                    $location.path('/login');
                     console.log(" logout success ");
                 }
             }).error(function (data, status) {
                 console.log('error in function logout function');
             });
-            $rootScope.connected = false;
-            $location.path('/login');
         },
         checkLoggedin: function () {
             var deferred = $q.defer();
