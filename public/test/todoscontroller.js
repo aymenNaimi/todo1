@@ -88,9 +88,23 @@ describe('PasswordController', function () {
         $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
         $httpBackend.expectPUT('http://localhost:3000/todos/' + todo._id, {done: true}).respond(200, updated);
         var controller = createController();
-        controller.done(todo._id,todo);
+        controller.done(todo._id, todo);
         $httpBackend.flush();
         expect(todo).toEqualData(updated);
+    });
+    it('clear todo test', function () {
+        var todo = {title: 'todo11', description: 'desc11', done: false};
+        var todos = [todo];
+        $httpBackend.expectGET('/todos/loggedin').respond(200);
+        $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
+        var controller = createController();
+        controller.clear();
+        $httpBackend.flush();
+        expect(controller.idup).toBe("");
+        expect(controller.titleup).toBe("");
+        expect(controller.descriptionup).toBe("");
+        expect(controller.errtitle).toBe("");
+        expect(controller.errdescription).toBe("");
     });
 
 });
