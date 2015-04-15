@@ -113,7 +113,6 @@ describe('PasswordController', function () {
         it('setmode function test with Add mode', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [todo];
-            var id, title, description, done;
             var mode = 'Add';
             $httpBackend.expectGET('/todos/loggedin').respond(200);
             $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
@@ -130,7 +129,6 @@ describe('PasswordController', function () {
         it("setmode function test with '' mode", function () {
             var todo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [todo];
-            var id, title, description, done;
             var mode = '';
             $httpBackend.expectGET('/todos/loggedin').respond(200);
             $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
@@ -209,14 +207,13 @@ describe('PasswordController', function () {
         it('delete todo test', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false, _id: "5527d0618e3702d1321a319a" };
             var todos = [todo];
-            var after = [];
             $httpBackend.expectGET('/todos/loggedin').respond(200);
             $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
             $httpBackend.expectDELETE('http://localhost:3000/todos/' + todo._id).respond(200, todo);
             var controller = createController();
             controller.delete2(todo._id);
             $httpBackend.flush();
-            expect(controller.todos).toEqualData(after);
+            expect(controller.todos).toEqualData([]);
         });
     });
 });
