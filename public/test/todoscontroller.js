@@ -106,6 +106,35 @@ describe('PasswordController', function () {
         expect(controller.errtitle).toBe("");
         expect(controller.errdescription).toBe("");
     });
+    it('setmode function test', function () {
+        var todo = {title: 'todo11', description: 'desc11', done: false};
+        var todos = [todo];
+        var id, title, description, done;
+        var mode = 'Update';
+        $httpBackend.expectGET('/todos/loggedin').respond(200);
+        $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
+        var controller = createController();
+        if (mode == 'Update') {
+            id = todo._id;
+            title = todo.title;
+            description = todo.description;
+            done = todo.done;
+        }
+        else {
+            id = '';
+            title = '';
+            description = '';
+            done = '';
+        }
+        controller.setmode(mode, todo);
+        $httpBackend.flush();
+        expect(controller.mode).toBe(mode);
+        expect(controller.idup).toBe(id);
+        expect(controller.titleup).toBe(title);
+        expect(controller.descriptionup).toBe(description);
+        expect(controller.doneup).toBe(done)
+        expect(controller.title_window).toBe(mode + ' todo');
+    });
 
 });
 
