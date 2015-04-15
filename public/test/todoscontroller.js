@@ -44,23 +44,7 @@ describe('PasswordController', function () {
             $httpBackend.flush();
             expect(controller.todos).toEqualData(added);
         });
-        /*
-         it('delete todo test', function () {
-         var todo = {title: 'todo11', description: 'desc11', done: false, _id : "5527d0618e3702d1321a319a" };
-         var todos = [todo];
-         var after = [];
-         $httpBackend.expectGET('/todos/loggedin').respond(200);
-         $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
 
-         $httpBackend.expectDELETE('http://localhost:3000/todos/'+"5527d0618e3702d1321a319a" ).respond(200, todo);
-
-         var controller = createController();
-         //  controller.delete("5527d0618e3702d1321a319a" );
-         spyOn(window, 'confirm').and.returnValue(true) ;
-         $httpBackend.flush();
-         expect(controller.todos).toEqualData(after);
-         });
-         */
         it('update todo test', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false, _id: "5527d0618e3702d1321a319a"};
             var updated = {title: 'todo1122', description: 'desc1133', done: true};
@@ -222,7 +206,18 @@ describe('PasswordController', function () {
             $httpBackend.flush();
             expect(controller.todos).toEqualData(todos);
         });
-
+        it('delete todo test', function () {
+            var todo = {title: 'todo11', description: 'desc11', done: false, _id: "5527d0618e3702d1321a319a" };
+            var todos = [todo];
+            var after = [];
+            $httpBackend.expectGET('/todos/loggedin').respond(200);
+            $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
+            $httpBackend.expectDELETE('http://localhost:3000/todos/' + todo._id).respond(200, todo);
+            var controller = createController();
+            controller.delete2(todo._id);
+            $httpBackend.flush();
+            expect(controller.todos).toEqualData(after);
+        });
     });
 });
 
