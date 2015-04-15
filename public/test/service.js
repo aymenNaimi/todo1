@@ -40,7 +40,6 @@ describe('Testing authService Service', function () {
         $httpBackend.flush();
     });
     it('testing loggedin ', function () {
-        var data = '';
         _auth.loggedin();
         $httpBackend.expectGET('/todos/loggedin').respond(200);
         $httpBackend.expectGET('/todos/loggedin').respond(200, '0');
