@@ -21,7 +21,6 @@ describe('PasswordController', function () {
         };
     }));
     describe(' todo test', function () {
-
         it('get todo test', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [todo];
@@ -31,8 +30,6 @@ describe('PasswordController', function () {
             $httpBackend.flush();
             expect(controller.todos).toEqualData(todos);
         });
-
-
         it('add todo test', function () {
             var addedtodo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [];
@@ -47,7 +44,6 @@ describe('PasswordController', function () {
             $httpBackend.flush();
             expect(controller.todos).toEqualData(added);
         });
-
         /*
          it('delete todo test', function () {
          var todo = {title: 'todo11', description: 'desc11', done: false, _id : "5527d0618e3702d1321a319a" };
@@ -65,7 +61,6 @@ describe('PasswordController', function () {
          expect(controller.todos).toEqualData(after);
          });
          */
-
         it('update todo test', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false, _id: "5527d0618e3702d1321a319a"};
             var updated = {title: 'todo1122', description: 'desc1133', done: true};
@@ -110,11 +105,6 @@ describe('PasswordController', function () {
             expect(controller.errtitle).toBe("");
             expect(controller.errdescription).toBe("");
         });
-
-
-
-
-
         it('setmode function test with Update mode', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [todo];
@@ -123,13 +113,10 @@ describe('PasswordController', function () {
             $httpBackend.expectGET('/todos/loggedin').respond(200);
             $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
             var controller = createController();
-
-                id = todo._id;
-                title = todo.title;
-                description = todo.description;
-                done = todo.done;
-
-
+            id = todo._id;
+            title = todo.title;
+            description = todo.description;
+            done = todo.done;
             controller.setmode(mode, todo);
             $httpBackend.flush();
             expect(controller.mode).toBe(mode);
@@ -139,8 +126,6 @@ describe('PasswordController', function () {
             expect(controller.doneup).toBe(done)
             expect(controller.title_window).toBe(mode + ' todo');
         });
-
-
         it('setmode function test with Add mode', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [todo];
@@ -149,20 +134,13 @@ describe('PasswordController', function () {
             $httpBackend.expectGET('/todos/loggedin').respond(200);
             $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
             var controller = createController();
-
-
-                id = '';
-                title = '';
-                description = '';
-                done = '';
-
             controller.setmode(mode, todo);
             $httpBackend.flush();
             expect(controller.mode).toBe(mode);
-            expect(controller.idup).toBe(id);
-            expect(controller.titleup).toBe(title);
-            expect(controller.descriptionup).toBe(description);
-            expect(controller.doneup).toBe(done)
+            expect(controller.idup).toBe('');
+            expect(controller.titleup).toBe('');
+            expect(controller.descriptionup).toBe('');
+            expect(controller.doneup).toBe('');
             expect(controller.title_window).toBe(mode + ' todo');
         });
         it("setmode function test with '' mode", function () {
@@ -173,25 +151,15 @@ describe('PasswordController', function () {
             $httpBackend.expectGET('/todos/loggedin').respond(200);
             $httpBackend.expectGET('http://localhost:3000/todos/').respond(200, todos);
             var controller = createController();
-
-
-            id = '';
-            title = '';
-            description = '';
-            done = '';
-
             controller.setmode(mode, todo);
             $httpBackend.flush();
             expect(controller.mode).toBe(mode);
-            expect(controller.idup).toBe(id);
-            expect(controller.titleup).toBe(title);
-            expect(controller.descriptionup).toBe(description);
-            expect(controller.doneup).toBe(done)
+            expect(controller.idup).toBe('');
+            expect(controller.titleup).toBe('');
+            expect(controller.descriptionup).toBe('');
+            expect(controller.doneup).toBe('')
             expect(controller.title_window).toBe(mode + ' todo');
         });
-
-
-
         it('testing save function test with Update mode', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false, _id: "5527d0618e3702d1321a319a"};
             var todo1 = {title: 'aabb', description: 'desc77', done: false};
