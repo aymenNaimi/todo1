@@ -42,14 +42,14 @@ describe('Testing authService Service', function () {
         $httpBackend.expectGET('http://localhost:3000/users/logout').respond(200, data);
         $httpBackend.flush();
     });
-    it('testing loggedin ', function () {
+    it('testing loggedin with connected user', function () {
         _auth.loggedin();
         $httpBackend.expectGET('/todos/loggedin').respond(200);
         $httpBackend.expectGET('/todos/loggedin').respond(200, '0');
         $httpBackend.flush();
         expect($rootScope.connected).toEqualData(false);
     });
-    it('testing loggedin ', function () {
+    it('testing loggedin without connected user ', function () {
         _auth.loggedin();
         $httpBackend.expectGET('/todos/loggedin').respond(200);
         $httpBackend.expectGET('/todos/loggedin').respond(200, 'user');

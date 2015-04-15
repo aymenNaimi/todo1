@@ -21,7 +21,7 @@ describe('todos Controller', function () {
             return $controller('myCtrl', {'$scope': $rootScope, loggedin: {username: 'aymen', password: 'allmas', _id: '5527d02e1d0a2ee9d14f5307' } });
         };
     }));
-    describe(' todo test', function () {
+    describe(' todo tests', function () {
         it('get todo test', function () {
             var todo = {title: 'todo11', description: 'desc11', done: false};
             var todos = [todo];

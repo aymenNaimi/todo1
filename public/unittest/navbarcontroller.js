@@ -1,4 +1,4 @@
-describe('navbar Controller', function () {
+describe('testing navbar Controller', function () {
     beforeEach(module('myApp'));
     var $controller, $httpBackend, $rootScope, createController;
     beforeEach(inject(function ($injector) {

@@ -1,18 +1,17 @@
 
 describe('Testing login Controller', function() {
     beforeEach(module('myApp'));
-    var $controller ,result,$httpBackend,$rootScope, createController;
+    var $controller,$httpBackend,$rootScope, createController;
         beforeEach(inject(function($injector){
         var $controller = $injector.get('$controller');
         $httpBackend = $injector.get('$httpBackend');
         $rootScope = $injector.get('$rootScope');
-        // The injector unwraps the underscores (_) from around the parameter names when matching
         createController = function() {
             return $controller('myCtrl2', {'$scope' : $rootScope });
         };
     }));
-    describe('$scope.connect', function() {
-        it(' testing that some variable are clear', function() {
+    describe('testing connect function', function() {
+        it(' testing connect function', function() {
             var controller = createController();
              controller.username ='ayyyymen';
              controller.password ='allmas';
