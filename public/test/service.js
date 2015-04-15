@@ -20,6 +20,8 @@ describe('Testing authService Service', function () {
         });
         $httpBackend = $injector.get('$httpBackend');
         $rootScope = $injector.get('$rootScope');
+        $q = $injector.get('$q');
+        $location = $injector.get('$location');
         createController = function () {
             return $controller('myCtrl', {'$scope': $rootScope, loggedin: {username: 'aymen', password: 'allmas', _id: '5527d02e1d0a2ee9d14f5307' } });
         };
@@ -53,5 +55,30 @@ describe('Testing authService Service', function () {
         $httpBackend.flush();
         expect($rootScope.connected).toEqualData(true);
     });
-
+    it('testing checkLoggedin with connected user ', function () {
+        var deferredSuccess = $q.defer('user');
+        deferredSuccess.resolve();
+        $httpBackend.expectGET('/todos/loggedin').respond(200);
+        $httpBackend.expectGET('/todos/loggedin').respond(200, 'user');
+        var promise = _auth.checkLoggedin();
+        $httpBackend.flush();
+        expect($rootScope.connected).toEqualData(true);
+        expect(promise.$$state.status).toBe(1);
+        expect(promise.$$state.value).toBe('user');
+    });
+    it('testing checkLoggedin without connected user', function () {
+        var deferredSuccess = $q.defer('user');
+        deferredSuccess.reject();
+        $httpBackend.expectGET('/todos/loggedin').respond(200);
+        $httpBackend.expectGET('/todos/loggedin').respond(200, '0');
+        var promise = _auth.checkLoggedin();
+        spyOn($location, 'path');
+        $httpBackend.flush();
+        expect($rootScope.connected).toEqualData(false);
+        expect(promise.$$state.status).toBe(2);
+        expect($location.path).toHaveBeenCalledWith("/login");
+    });
 });
+
+
+
