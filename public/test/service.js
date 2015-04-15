@@ -32,12 +32,27 @@ describe('Testing authService Service', function () {
         expect(_auth.loggedin).toBeDefined();
         expect(_auth.logout).toBeDefined();
     });
-    it('test logout ', function () {
+    it('testing logout ', function () {
         var data = '';
         _auth.logout();
         $httpBackend.expectGET('/todos/loggedin').respond(200);
         $httpBackend.expectGET('http://localhost:3000/users/logout').respond(200, data);
         $httpBackend.flush();
+    });
+    it('testing loggedin ', function () {
+        var data = '';
+        _auth.loggedin();
+        $httpBackend.expectGET('/todos/loggedin').respond(200);
+        $httpBackend.expectGET('/todos/loggedin').respond(200, '0');
+        $httpBackend.flush();
+        expect($rootScope.connected).toEqualData(false);
+    });
+    it('testing loggedin ', function () {
+        _auth.loggedin();
+        $httpBackend.expectGET('/todos/loggedin').respond(200);
+        $httpBackend.expectGET('/todos/loggedin').respond(200, 'user');
+        $httpBackend.flush();
+        expect($rootScope.connected).toEqualData(true);
     });
 
 });
