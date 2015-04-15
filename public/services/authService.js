@@ -1,7 +1,6 @@
 angular.module('myApp').factory('authService', function ($http, $location, $rootScope, $q) {
     return {
         logout: function () {
-            console.log('hello aymen');
             $http({
                 method: 'GET',
                 url: 'http://localhost:3000/users/logout',
@@ -17,7 +16,6 @@ angular.module('myApp').factory('authService', function ($http, $location, $root
             });
             $rootScope.connected = false;
             $location.path('/login');
-            console.log('hello aymen aymen');
         },
         checkLoggedin: function () {
             var deferred = $q.defer();
