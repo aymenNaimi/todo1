@@ -1,4 +1,3 @@
-
 describe('Testing myApp Main Module', function () {
     var mainModule;
     beforeEach(function () {
