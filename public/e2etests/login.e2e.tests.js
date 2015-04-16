@@ -45,13 +45,13 @@ describe('todos E2E Tests:', function () {
 
    //     protractor.By.repeater("l in mycl.todos");
 
-        it('testing title to be Togo Management', function () {
+        it('testing that the added todo was found in the todos model', function () {
 
             browser.get('http://localhost:3000/#/login');
             element(by.model('mycl.username')).sendKeys('aymen');
             element(by.model('mycl.password')).sendKeys('allmas');
             element(by.css('button[type=submit]')).click();
-            
+
             expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/todos');
             element.all(by.repeater('l in mycl.todos').column('title')).then(function(elems) {
                 expect( elems[1].getText()).toEqual('peugeot');
@@ -68,7 +68,22 @@ describe('todos E2E Tests:', function () {
 
 
 
+        it('testing done todo', function () {
 
+            browser.get('http://localhost:3000/#/login');
+            element(by.model('mycl.username')).sendKeys('aymen');
+            element(by.model('mycl.password')).sendKeys('allmas');
+            element(by.css('button[type=submit]')).click();
+
+            expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/todos');
+
+            element.all(by.repeater('l in mycl.todos')).then(function(elems) {
+
+                elems[1].element(by.css('button')).click();
+
+            });
+
+        });
 
 
 
