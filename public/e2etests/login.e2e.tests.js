@@ -1,7 +1,7 @@
 describe('todos E2E Tests:', function () {
 
 
-    describe('login logout test', function () {
+    describe('crud todos test', function () {
 
         it('Should not be able to get todos ', function () {
             browser.get('http://localhost:3000/#/todos');
