@@ -1,5 +1,10 @@
 describe('todos E2E Tests:', function () {
+
+
+
+
     describe('login logout test', function () {
+
         it('Should not be able to get todos ', function () {
             browser.get('http://localhost:3000/#/todos');
             expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/login');
@@ -107,6 +112,30 @@ describe('todos E2E Tests:', function () {
 
 
 
+
+                });
+
+            });
+
+        });
+
+        it('testing delete todo', function () {
+
+            browser.get('http://localhost:3000/#/login');
+            element(by.model('mycl.username')).sendKeys('aymen');
+            element(by.model('mycl.password')).sendKeys('allmas');
+            element(by.css('button[type=submit]')).click();
+
+            expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/todos');
+
+            element.all(by.repeater('l in mycl.todos')).then(function(elems) {
+
+                elems[0].all(by.css('button')).then(function(elem) {
+                    elem[2].click();
+
+
+
+                    browser.switchTo().alert().accept();
 
                 });
 
