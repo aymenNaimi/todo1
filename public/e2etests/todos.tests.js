@@ -1,6 +1,37 @@
+/*
+ var mongoose = require('mongoose');
+ require('../../server/config/mongoose.js');
+
+ var User = require('../../server/api/users/users.model.js');
+ var    Todo = mongoose.model('../../server/api/todos/todos.model.js');
+ */
 describe('todos E2E Tests:', function () {
 
     beforeEach(function () {
+        /*
+
+         user = new User({
+         username: 'aymen11',
+         password: 'allmas11',
+         first_name: 'first Name Test',
+         last_name: 'last Name test',
+         email: 'email@est.com'
+         });
+
+
+         user.save(function (err, data) {
+         todo = new Todo({
+         title: 'golf',
+         description: '7',
+         done: false,
+         user_id: user._id
+         });
+         todo.save();
+
+         });
+
+
+         */
         browser.get('http://localhost:3000/#/login');
         element(by.model('mycl.username')).sendKeys('aymen');
         element(by.model('mycl.password')).sendKeys('allmas');
@@ -16,9 +47,6 @@ describe('todos E2E Tests:', function () {
             element(by.buttonText("save")).click();
             var todoList = element.all(by.repeater('l in mycl.todos'));
             expect(todoList.count()).toEqual(2);
-        });
-        it('testing that the added todo was found in the todos model', function () {
-            expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/todos');
             element.all(by.repeater('l in mycl.todos').column('title')).then(function (elems) {
                 expect(elems[1].getText()).toEqual('peugeot');
             });
@@ -29,6 +57,7 @@ describe('todos E2E Tests:', function () {
                 expect(elems[1].getText()).toEqual('false');
             });
         });
+
         it('testing done todo', function () {
             expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/todos');
             element.all(by.repeater('l in mycl.todos')).then(function (elems) {
@@ -57,8 +86,19 @@ describe('todos E2E Tests:', function () {
          browser.switchTo().alert().accept();
          });
          });
+         var todoList = element.all(by.repeater('l in mycl.todos'));
+         expect(todoList.count()).toEqual(1);
          });
          */
-
     });
+    /*
+     afterEach(function (done) {
+     Todo.remove(function () {
+     User.remove(function () {
+     done();
+     });
+     });
+     });
+     */
+
 });
