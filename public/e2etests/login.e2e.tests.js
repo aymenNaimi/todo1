@@ -1,9 +1,12 @@
 describe('todos E2E Tests:', function () {
-    describe('login', function () {
-        it('Should not be able to get todos', function () {
+    describe('login logout test', function () {
+        it('Should not be able to get todos ', function () {
             browser.get('http://localhost:3000/#/todos');
-
-            expect('aaa').toBe('aaa');
+            expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/login');
+        });
+        it('Should not be able to go to the home page', function () {
+            browser.get('http://localhost:3000/#/login');
+            element(by.linkText('Home')).click();
             expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/login');
         });
         it('Should  able to login', function () {
@@ -11,8 +14,9 @@ describe('todos E2E Tests:', function () {
             element(by.model('mycl.username')).sendKeys('aymen');
             element(by.model('mycl.password')).sendKeys('allmas');
             element(by.css('button[type=submit]')).click();
-            expect('aaa').toBe('aaa');
             expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/todos');
+            element(by.linkText('logout')).click();
+            expect(browser.getCurrentUrl()).toEqual('http://localhost:3000/#/login');
         });
     });
 });
